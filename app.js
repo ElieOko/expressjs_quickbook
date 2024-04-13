@@ -10,22 +10,73 @@ const corsOption = {
 };
 
 
+const asyncIntervals = [];
+
+const runAsyncInterval = async (cb, interval, intervalIndex) => {
+  await cb();
+  if (asyncIntervals[intervalIndex]) {
+    setTimeout(() => runAsyncInterval(cb, interval, intervalIndex), interval);
+  }
+};
+
+const setAsyncInterval = (cb, interval) => {
+  if (cb && typeof cb === "function") {
+    const intervalIndex = asyncIntervals.length;
+    asyncIntervals.push(true);
+    runAsyncInterval(cb, interval, intervalIndex);
+    return intervalIndex;
+  } else {
+    throw new Error('Callback must be a function');
+  }
+};
+
+const clearAsyncInterval = (intervalIndex ) => {
+  if (asyncIntervals[intervalIndex]) {
+    asyncIntervals[intervalIndex] = false;
+  }
+}
 app.use(cors(corsOption));
 app.get("/",(req,res)=>{
     res.send("Hello");
    console.log("hiss ");
 })
-function getApiWithConfigAxios(){
+function getApiWithConfigAxios($token = ""){
+
   return  axios.create({
         baseURL               :/*"https://server.drapeauyamboka.com/api"*/`https://quickbooks.api.intuit.com/v3/company/9341452065431980`,
         headers   : {
           accept: 'application/json',
           "Content-type"      :   "application/json",
           "X-Requested-With"  :   "XMLHttpRequest",
-          "Authorization"     :   `Bearer eyJlbmMiOiJBMTI4Q0JDLUhTMjU2IiwiYWxnIjoiZGlyIn0..vPnHMwachsHBBv8ZsLauHw.FRBQ6sbWEO6hLpCnToOtY_7BHnUfijqygpzKN9PrIVeqA5vByey7gOTIy0JJaUzpV4M_iLK4CdBNLqJMY7BsU6G-_4FBDy8ctq4rjk_COdB_HylKi_QRHcHQY675IerYHtox5ITBEW-XQj0KDwawKKFw55gApaYONZHQAEbN0MJ5Js3cO9hmVT9tMLzFSEIMbyirMLS3z_Jap_WR02Ie_fwoLfT6I8kfaszPKOw0gTWV7uXb-OOQqyknoOxestCtQeZTE8aXEQm_Y0XAk2MdVfLuwWVXG-wu-m5tJrvImAwsSRFhdhdfSLFd7EzFi40-uDfD4NKRwNN9dp9OzstNeh9cb9xPST34hTf2jawETU-Bts93rDLWR1O0Si_VLC76q5b17cAXLyByXNKY1en6spYoFKHS6N2wAR0PB1kbybLYgRW9D3OolWA6oBN1ic29cxEzHMLbwbI3PNqlgFstEuR-Wt0f1HO1BcuNR4uFL1lkOKO-eA4BYdDmuZt9sh5myA6ElCLNUYiu7C2wMUdOO4v_k5jIYJytvXlIaQycW0Ag4jV8MZERcc72lXZLgSVoU3CWyDXHUwjzX7g3EGAYEA4g5DBZiDrj4pm_BKqG6IcywnJ4paD5-R7URXF8MvmrVaI1BcHYiq16dH3v1wwBP-R_dzD1GlK1-qZitYWe8gy6xOn6zdZkq2owq8p8-zlB1qyuvqUhv81DHCMLN2rjYIo2Z2yhR5XIRK760rSAyUmfzVPvvl93p0kDiIxX4ZFD.Ule2woAnhQaZdOQchyz9Fg`       
+          "Authorization"     :   `Bearer ${token}`       
         }
       })
 }
+function getApiWithConfigStorage(){
+
+    return  axios.create({
+          baseURL               :`https://unruffled-cloud-27010.pktriot.net/api/`,
+          headers   : {
+            accept: 'application/json',
+            "Content-type"      :   "application/json",
+            "X-Requested-With"  :   "XMLHttpRequest",
+            "Authorization"     :   `Bearer `       
+          }
+        })
+  }
+
+  function useAxiosRequestWithToken(){
+
+    return  axios.create({
+          baseURL               :`https://qkbfront.drapeauyamboka.com/api/`,
+          headers   : {
+            accept: 'application/json',
+            "Content-type"      :   "application/json",
+            "X-Requested-With"  :   "XMLHttpRequest",
+            "Authorization"     :   `Bearer `       
+          }
+        })
+  }
 
 app.listen(port,()=>{
     console.log("Server is run...")
@@ -33,16 +84,147 @@ app.listen(port,()=>{
 })
 
 const test = async ()=>{
-    await
-    getApiWithConfigAxios().get("/query?query=SELECT%20*%20FROM%20Invoice")
-        .then((response)=>{
-            console.log("**Hi**",response.data);
+    setAsyncInterval(async () => {
+        console.log('start');
+        const promise = useAxiosRequestWithToken().get(`/backup/token`)
+        .then(function (response) {
+            const token = response.data.token 
+            if(token != null){
+                console.log("**************************")
+                console.log("Token eye ->",token)
+                // router.push("/")
+                console.log("**************************")
+                await
+                (getApiWithConfigAxios(token).get("/query?query=SELECT%20*%20FROM%20Invoice")
+                    .then((response)=>{
+                        console.log("**Hi**",response.data);
+                    await(
+                        getApiWithConfigStorage().post("/create/invoice",)
+                        .then((response)=>{
+                            console.log("Data -> ",response.data.msg);
+                        })
+                        .catch((error)=>{
+                            console.log(error)
+                        })
+                    )  
+                    })
+                    .catch((error)=>{
+                        console.log("**Error**",error);
+                    }))
+        //
+                await
+                (getApiWithConfigAxios(token).get("/query?query=SELECT%20*%20FROM%20Vendor")
+                    .then((response)=>{
+                        console.log("**Hi**",response.data);
+                    await(
+                        getApiWithConfigStorage().post("/create/vendor",)
+                        .then((response)=>{
+                            console.log("Data -> ",response.data.msg);
+                        })
+                        .catch(()=>{
+            
+                        })
+                    )  
+                    })
+                    .catch((error)=>{
+                        console.log("**Error**",error);
+                    })) 
+            //
+            await
+            (getApiWithConfigAxios(token).get("/query?query=SELECT%20*%20FROM%20Item")
+                .then((response)=>{
+                    console.log("**Hi**",response.data);
+                  await(
+                    getApiWithConfigStorage().post("/create/item",)
+                    .then((response)=>{
+                        console.log("Data -> ",response.data.msg);
+                    })
+                    .catch(()=>{
+        
+                    })
+                  )  
+                })
+                .catch((error)=>{
+                    console.log("**Error**",error);
+                }))
+            //
+            await
+            (getApiWithConfigAxios(token).get("/query?query=SELECT%20*%20FROM%20Account")
+                .then((response)=>{
+                    console.log("**Hi**",response.data);
+                  await(
+                    getApiWithConfigStorage().post("/create/account",)
+                    .then((response)=>{
+                        console.log("Data -> ",response.data.msg);
+                    })
+                    .catch(()=>{
+        
+                    })
+                  )  
+                })
+                .catch((error)=>{
+                    console.log("**Error**",error);
+                }))      
+                //
+                await
+                (getApiWithConfigAxios(token).get("/query?query=SELECT%20*%20FROM%20Customer")
+                    .then((response)=>{
+                        console.log("**Hi**",response.data);
+                      await(
+                        getApiWithConfigStorage().post("/create/customer",)
+                        .then((response)=>{
+                            console.log("Data -> ",response.data.msg);
+                        })
+                        .catch(()=>{
+            
+                        })
+                      )  
+                    })
+                    .catch((error)=>{
+                        console.log("**Error**",error);
+                    }))
+                    //
+                await
+                (getApiWithConfigAxios(token).get("/query?query=SELECT%20*%20FROM%20Departement")
+                    .then((response)=>{
+                        console.log("**Hi**",response.data);
+                      await(
+                        getApiWithConfigStorage().post("/create/department",)
+                        .then((response)=>{
+                            console.log("Data -> ",response.data.msg);
+                        })
+                        .catch(()=>{
+            
+                        })
+                      )  
+                    })
+                    .catch((error)=>{
+                        console.log("**Error**",error);
+                    }))
+                //
+                await
+                (getApiWithConfigAxios(token).get("/query?query=SELECT%20*%20FROM%20Employee")
+                    .then((response)=>{
+                        console.log("**Hi**",response.data);
+                      await(
+                        getApiWithConfigStorage().post("/create/employee",)
+                        .then((response)=>{
+                            console.log("Data -> ",response.data.msg);
+                        })
+                        .catch(()=>{
+            
+                        })
+                      )  
+                    })
+                    .catch((error)=>{
+                        console.log("**Error**",error);
+                    }))
+            }
         })
-        .catch((error)=>{
-            console.log("**Error**",error);
-        })
-        .finally(()=>{
+        await promise;
+        console.log('end');
+        }, 1000);
+    
 
-        })
 }
 test()
