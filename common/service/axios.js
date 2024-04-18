@@ -2,7 +2,7 @@ const { default: axios } = require("axios");
 
 function useAxiosRequestWithToken(){
     return  axios.create({
-          baseURL               :`https://qkbfront.drapeauyamboka.com/api/`,
+          baseURL               :`https://elie.excursio.africa/api/`,
           headers   : {
             accept: 'application/json',
             "Content-type"      :   "application/json",

@@ -2,7 +2,9 @@ const port = 5000;
 const express = require("express");
 const app = express();
 const cors = require("cors");
-const fs = require("fs")
+const fs = require("fs");
+const config = require("./config");
+const QuickBooks = require('node-quickbooks');
 const commondSync = require("./common/utils/fun");
 const requestAxios = require("./common/service/axios")
 
@@ -410,148 +412,121 @@ app.listen(port,()=>{
     console.log("hiss ");
 })
 
-// const test = async ()=>{
-//     commondSync.setAsyncInterval(async () => {
-//         const promise = requestAxios.useAxiosRequestWithToken().get(`/token/refresh`)
-//         .then(function (response) {
-//             const token = response.data.token 
-//             if(token != null){
-//                 console.log("**************************")
-//                 console.log("Token eye ->",token)
-//                 // router.push("/")
-//                 console.log("**************************")
-//                 await
-//                 (requestAxios.getApiWithConfigAxios(token).get("/query?query=SELECT%20*%20FROM%20Invoice")
-//                     .then((response)=>{
-//                         console.log("**Hi**",response.data);
-//                     await(
-//                         requestAxios.getApiWithConfigStorage().post("/create/invoice",)
-//                         .then((response)=>{
-//                             console.log("Data -> ",response.data.msg);
-//                         })
-//                         .catch((error)=>{
-//                             console.log(error)
-//                         })
-//                     )  
-//                     })
-//                     .catch((error)=>{
-//                         console.log("**Error**",error);
-//                     }))
-//         //
-//                 await
-//                 (requestAxios.getApiWithConfigAxios(token).get("/query?query=SELECT%20*%20FROM%20Vendor")
-//                     .then((response)=>{
-//                         console.log("**Hi**",response.data);
-//                     await(
-//                         requestAxios.getApiWithConfigStorage().post("/create/vendor",)
-//                         .then((response)=>{
-//                             console.log("Data -> ",response.data.msg);
-//                         })
-//                         .catch(()=>{
+const test = async ()=>{
+    commondSync.setAsyncInterval(async () => {
+        const promise = requestAxios.useAxiosRequestWithToken().get(`/token/refresh`)
+        .then(function (response) {
+            config.oauthToken   = response.data.token.accessTokenKey;
+            config.refreshToken = response.data.token.refresh_token;
+            // console.log(`----${config.refreshToken}----`)
+            // return
+            const qbo = new QuickBooks(config.consumerKey,
+                config.consumerSecret,
+                config.oauthToken,
+                false, // no token secret for oAuth 2.0
+                config.realmId,
+                false, // use the sandbox?
+                true, // enable debugging?
+                null, // set minorversion, or null for the latest version
+                '2.0', //oAuth version
+                config.refreshToken);
             
-//                         })
-//                     )  
-//                     })
-//                     .catch((error)=>{
-//                         console.log("**Error**",error);
-//                     })) 
-//             //
-//             await
-//             (requestAxios.getApiWithConfigAxios(token).get("/query?query=SELECT%20*%20FROM%20Item")
-//                 .then((response)=>{
-//                     console.log("**Hi**",response.data);
-//                   await(
-//                     requestAxios.getApiWithConfigStorage().post("/create/item",)
-//                     .then((response)=>{
-//                         console.log("Data -> ",response.data.msg);
-//                     })
-//                     .catch(()=>{
-        
-//                     })
-//                   )  
-//                 })
-//                 .catch((error)=>{
-//                     console.log("**Error**",error);
-//                 }))
-//             //
-//             await
-//             (requestAxios.getApiWithConfigAxios(token).get("/query?query=SELECT%20*%20FROM%20Account")
-//                 .then((response)=>{
-//                     console.log("**Hi**",response.data);
-//                   await(
-//                     requestAxios.getApiWithConfigStorage().post("/create/account",)
-//                     .then((response)=>{
-//                         console.log("Data -> ",response.data.msg);
-//                     })
-//                     .catch(()=>{
-        
-//                     })
-//                   )  
-//                 })
-//                 .catch((error)=>{
-//                     console.log("**Error**",error);
-//                 }))      
-//                 //
-//                 await
-//                 (requestAxios.getApiWithConfigAxios(token).get("/query?query=SELECT%20*%20FROM%20Customer")
-//                     .then((response)=>{
-//                         console.log("**Hi**",response.data);
-//                       await(
-//                         requestAxios.getApiWithConfigStorage().post("/create/customer",)
-//                         .then((response)=>{
-//                             console.log("Data -> ",response.data.msg);
-//                         })
-//                         .catch(()=>{
+            qbo.findCustomers({
+                fetchAll: true
+              }, function(e, customers) {
+                console.log(customers.QueryResponse.Customer);
+                const data = customers.QueryResponse.Customer
+               
+                    requestAxios.useAxiosRequestWithToken().post(`/create/customer`,data)
+                        .then(function (response) {
+                            console.log(`${response.data.message}`) 
+                        }).catch((error)=>{
+
+                        })
+              })
             
-//                         })
-//                       )  
-//                     })
-//                     .catch((error)=>{
-//                         console.log("**Error**",error);
-//                     }))
-//                     //
-//                 await
-//                 (requestAxios.getApiWithConfigAxios(token).get("/query?query=SELECT%20*%20FROM%20Departement")
-//                     .then((response)=>{
-//                         console.log("**Hi**",response.data);
-//                       await(
-//                         requestAxios.getApiWithConfigStorage().post("/create/department",)
-//                         .then((response)=>{
-//                             console.log("Data -> ",response.data.msg);
-//                         })
-//                         .catch(()=>{
+            qbo.findAccounts({
+                fetchAll: true
+              }, function(e, accounts) {
+                //console.log(accounts.QueryResponse?.Account);
+                    requestAxios.useAxiosRequestWithToken().post(`/create/account`,accounts.QueryResponse.Account)
+                        .then(function (response) {
+                            console.log(`${response.data.message}`)
+                        }).catch((error)=>{
+                            console.log(error)
+                        })
+              })
+             
+            qbo.findDepartments({   
+                fetchAll: true
+                },(e,departements)=>{
+                    console.log(departements.QueryResponse?.Departement);
+                    const data = departements.QueryResponse?.Departement
+                        requestAxios.useAxiosRequestWithToken().post(`/create/department`,data)
+                            .then(function (response) {
+                                console.log(`${response.data.message}`)
+                            }).catch((error)=>{
+                                console.log(`${error}`)
+                            })
+                })
+            qbo.findEmployees({
+                fetchAll:true
+            },(e,employees)=>{
+                console.log(employees.QueryResponse.Employee);
+                const data = employees.QueryResponse.Employee
+                if(employees.QueryResponse.Employee){
+                    requestAxios.useAxiosRequestWithToken().post(`/create/employee`,data)
+                            .then(function (response) {
+                                console.log(`${response.data.message}`)
+                            }).catch((error)=>{
+                                console.log(`${error}`)
+                            })
+                }
+            })
+            qbo.findItems({
+            fetchAll:true
+            },(e,items)=>{
+                console.log(items.QueryResponse?.Item);
+                const data = items.QueryResponse?.Item
+                    requestAxios.useAxiosRequestWithToken().post(`/create/item`,data)
+                        .then(function (response) {
+                            console.log(`${response.data.message}`)
+                        }).catch((error)=>{
+                            console.log(`${error}`)
+                        })
+            })
             
-//                         })
-//                       )  
-//                     })
-//                     .catch((error)=>{
-//                         console.log("**Error**",error);
-//                     }))
-//                 //
-//                 await
-//                 (requestAxios.getApiWithConfigAxios(token).get("/query?query=SELECT%20*%20FROM%20Employee")
-//                     .then((response)=>{
-//                         console.log("**Hi**",response.data);
-//                       await(
-//                         requestAxios.getApiWithConfigStorage().post("/create/employee",)
-//                         .then((response)=>{
-//                             console.log("Data -> ",response.data.msg);
-//                         })
-//                         .catch(()=>{
+            qbo.findInvoices({fetchAll:true},(e,invoices)=>{
+                console.log(invoices.QueryResponse?.Invoice);
+                const data = invoices.QueryResponse?.Invoice
+                    requestAxios.useAxiosRequestWithToken().post(`/create/invoice`,data)
+                        .then(function (response) {
+                            console.log(`${response.data.message}`)
+                        }).catch((error)=>{
+                            console.log(`${error}`)
+                        })
+            })
             
-//                         })
-//                       )  
-//                     })
-//                     .catch((error)=>{
-//                         console.log("**Error**",error);
-//                     }))
-//             }
-//         })
-//         await promise;
-//         console.log('end');
-//         }, 1000);    
-// }
-// test()
+            qbo.findVendors({fetchAll:true},(e,vendors)=>{
+                console.log(vendors.QueryResponse.Vendor);
+                const data = vendors.QueryResponse.Vendor
+                    requestAxios.useAxiosRequestWithToken().post(`/create/vendor`,data)
+                        .then(function (response) {
+                            console.log(`${response.data.message}`)
+                        }).catch((error)=>{
+                            console.log(`${error}`)
+                        })
+            })
+            
+            // qbo.findDeposits({fetchAll:true},(e,deposits)=>{
+            //     console.log(deposits.QueryResponse.Deposit)
+            // })
+        })
+        await promise;
+        }, 5000);    
+}
+test()
 // 50minutes pour le token
 // 30minutes
 // 
+
