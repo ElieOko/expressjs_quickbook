@@ -162,201 +162,201 @@ body{
   content: '';
 }
 
-/*Byte Animation*/
-@-webkit-keyframes byte_animate{
-  0%{
-    opacity: 0;
-    left: 80px;
-  }
-  4%{
-    opacity: 1;
-  }
-  46%{
-    opacity: 1;
-  }
-  50%{
-    opacity: 0;
-    left: 185px;
-  }
-  54%{
-    opacity: 1;
-  }
-  96%{
-    opacity: 1;
-  }
-  100%{
-    opacity: 0;
-    left: 80px;
-  }
-}
+// /*Byte Animation*/
+// @-webkit-keyframes byte_animate{
+//   0%{
+//     opacity: 0;
+//     left: 80px;
+//   }
+//   4%{
+//     opacity: 1;
+//   }
+//   46%{
+//     opacity: 1;
+//   }
+//   50%{
+//     opacity: 0;
+//     left: 185px;
+//   }
+//   54%{
+//     opacity: 1;
+//   }
+//   96%{
+//     opacity: 1;
+//   }
+//   100%{
+//     opacity: 0;
+//     left: 80px;
+//   }
+// }
 
-@-moz-keyframes byte_animate{
-  0%{
-    opacity: 0;
-    left: 80px;
-  }
-  4%{
-    opacity: 1;
-  }
-  46%{
-    opacity: 1;
-  }
-  50%{
-    opacity: 0;
-    left: 185px;
-  }
-  54%{
-    opacity: 1;
-  }
-  96%{
-    opacity: 1;
-  }
-  100%{
-    opacity: 0;
-    left: 80px;
-  }
-}
+// @-moz-keyframes byte_animate{
+//   0%{
+//     opacity: 0;
+//     left: 80px;
+//   }
+//   4%{
+//     opacity: 1;
+//   }
+//   46%{
+//     opacity: 1;
+//   }
+//   50%{
+//     opacity: 0;
+//     left: 185px;
+//   }
+//   54%{
+//     opacity: 1;
+//   }
+//   96%{
+//     opacity: 1;
+//   }
+//   100%{
+//     opacity: 0;
+//     left: 80px;
+//   }
+// }
 
-@-o-keyframes byte_animate{
-  0%{
-    opacity: 0;
-    left: 80px;
-  }
-  4%{
-    opacity: 1;
-  }
-  46%{
-    opacity: 1;
-  }
-  50%{
-    opacity: 0;
-    left: 185px;
-  }
-  54%{
-    opacity: 1;
-  }
-  96%{
-    opacity: 1;
-  }
-  100%{
-    opacity: 0;
-    left: 80px;
-  }
-}
+// @-o-keyframes byte_animate{
+//   0%{
+//     opacity: 0;
+//     left: 80px;
+//   }
+//   4%{
+//     opacity: 1;
+//   }
+//   46%{
+//     opacity: 1;
+//   }
+//   50%{
+//     opacity: 0;
+//     left: 185px;
+//   }
+//   54%{
+//     opacity: 1;
+//   }
+//   96%{
+//     opacity: 1;
+//   }
+//   100%{
+//     opacity: 0;
+//     left: 80px;
+//   }
+// }
 
-@keyframes byte_animate{
-  0%{
-    opacity: 0;
-    left: 80px;
-  }
-  4%{
-    opacity: 1;
-  }
-  46%{
-    opacity: 1;
-  }
-  50%{
-    opacity: 0;
-    left: 185px;
-  }
-  54%{
-    opacity: 1;
-  }
-  96%{
-    opacity: 1;
-  }
-  100%{
-    opacity: 0;
-    left: 80px;
-  }
-}
+// @keyframes byte_animate{
+//   0%{
+//     opacity: 0;
+//     left: 80px;
+//   }
+//   4%{
+//     opacity: 1;
+//   }
+//   46%{
+//     opacity: 1;
+//   }
+//   50%{
+//     opacity: 0;
+//     left: 185px;
+//   }
+//   54%{
+//     opacity: 1;
+//   }
+//   96%{
+//     opacity: 1;
+//   }
+//   100%{
+//     opacity: 0;
+//     left: 80px;
+//   }
+// }
 
-/*LOADER*/
-@-webkit-keyframes loader{
-  0%{
-    width: 8px;
-  }
-  100%{
-    width: 63px;
-  }
-}
+// /*LOADER*/
+// @-webkit-keyframes loader{
+//   0%{
+//     width: 8px;
+//   }
+//   100%{
+//     width: 63px;
+//   }
+// }
 
-@-moz-keyframes loader{
-  0%{
-    width: 8px;
-  }
-  100%{
-    width: 63px;
-  }
-}
+// @-moz-keyframes loader{
+//   0%{
+//     width: 8px;
+//   }
+//   100%{
+//     width: 63px;
+//   }
+// }
 
-@-o-keyframes loader{
-  0%{
-    width: 8px;
-  }
-  100%{
-    width: 63px;
-  }
-}
+// @-o-keyframes loader{
+//   0%{
+//     width: 8px;
+//   }
+//   100%{
+//     width: 63px;
+//   }
+// }
 
-@keyframes loader{
-  0%{
-    width: 8px;
-  }
-  100%{
-    width: 63px;
-  }
-}
+// @keyframes loader{
+//   0%{
+//     width: 8px;
+//   }
+//   100%{
+//     width: 63px;
+//   }
+// }
 
 
-/*FADE IN-OUT*/
-@-webkit-keyframes fade-in-out{
-  0%{
-    opacity: 1;
-  }
-  50%{
-    opacity: 0;
-  }
-  100%{
-    oapcity: 1;
-  }
-}
+// /*FADE IN-OUT*/
+// @-webkit-keyframes fade-in-out{
+//   0%{
+//     opacity: 1;
+//   }
+//   50%{
+//     opacity: 0;
+//   }
+//   100%{
+//     oapcity: 1;
+//   }
+// }
 
-@-moz-keyframes fade-in-out{
-  0%{
-    opacity: 1;
-  }
-  50%{
-    opacity: 0;
-  }
-  100%{
-    oapcity: 1;
-  }
-}
+// @-moz-keyframes fade-in-out{
+//   0%{
+//     opacity: 1;
+//   }
+//   50%{
+//     opacity: 0;
+//   }
+//   100%{
+//     oapcity: 1;
+//   }
+// }
 
-@-o-keyframes fade-in-out{
-  0%{
-    opacity: 1;
-  }
-  50%{
-    opacity: 0;
-  }
-  100%{
-    oapcity: 1;
-  }
-}
+// @-o-keyframes fade-in-out{
+//   0%{
+//     opacity: 1;
+//   }
+//   50%{
+//     opacity: 0;
+//   }
+//   100%{
+//     oapcity: 1;
+//   }
+// }
 
-@keyframes fade-in-out{
-  0%{
-    opacity: 1;
-  }
-  50%{
-    opacity: 0;
-  }
-  100%{
-    oapcity: 1;
-  }
-}
+// @keyframes fade-in-out{
+//   0%{
+//     opacity: 1;
+//   }
+//   50%{
+//     opacity: 0;
+//   }
+//   100%{
+//     oapcity: 1;
+//   }
+// }
 .content-server{
     text-align : center;
     color : #fff;
@@ -378,7 +378,7 @@ body{
         <div class="server"></div>
       </div>
       <div class="content-server">
-            <u>Type deploiement Microservice</u> <br><br>
+            <u>Type deploiement Microservice</u> <br><br><>
             <ul>
                 <li>Nodejs (for run script every time)</li>
                 <li>PHP/Laravel (for storage data in Database SQLServer</li>
