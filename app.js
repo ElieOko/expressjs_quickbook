@@ -13,7 +13,7 @@ const corsOption = {
 
 app.use(cors(corsOption));
 app.get("/",(req,res)=>{
-    res.send("Hello");
+    res.send("Server Runtine Nodejs Express Quickbooks Version final");
    console.log("hiss ");
 })
 
