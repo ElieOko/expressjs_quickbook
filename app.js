@@ -10,7 +10,7 @@ const requestAxios = require("./common/service/axios")
 
 const corsOption = {
     credences : true,
-    origin : ['http://localhost:5000',"*"]
+    origin : ['https://expressjs-quickbook.vercel.app',"*"]
 };
 
 
