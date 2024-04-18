@@ -20,7 +20,8 @@ app.get("/",(req,res)=>{
         `
         <h1>Hello</h1>
         `
-    )
+    );
+    res.end();
     // fs.readFileSync("./view/index.html",(err,data)=>{
     //     if (err) {
     //       console.log(err)  
