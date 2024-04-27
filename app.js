@@ -10,11 +10,15 @@ const requestAxios = require("./common/service/axios")
 
 const corsOption = {
     credences : true,
-    origin : ['https://expressjs-quickbook.vercel.app',"*"]
+    origin : ['https://expressjs-quickbook.vercel.app/',"*"]
 };
+app.options('*', cors()) 
 
-
-app.use(cors(corsOption));
+// app.use(cors(corsOption));
+app.use(express.json())
+app.get("/test",(req,res)=>{
+  res.send("Journalisation du code")
+})
 app.get("/",(req,res)=>{
     //res.send("Server Runtine Nodejs Express Quickbooks Version final");
     res.setHeader("Content-Type",'text/html')
@@ -405,19 +409,49 @@ body{
     // })
 })
 
+app.post("/api/create/item",(req,res)=>{
+  //traitement
+})
 
+app.post("/api/create/invoice",(req,res)=>{
+//  res.send(200,{message:"Oui"})
+ res.status(200).send({message:"Oui"})
+//  res.json(req.body)
+ console.log("----Invoice------ =>",req.body._value)
+})
 
+app.post("/api/create/vendor",(req,res)=>{
+  //traitement
+})
+
+app.post("/api/create/customer",(req,res)=>{
+  //traitement
+})
+
+app.post("/api/create/employee",(req,res)=>{
+  //traitement
+})
+
+app.post("/api/create/account",(req,res)=>{
+  //traitement
+})
+
+app.post("/api/create/item",(req,res)=>{
+  //traitement
+})
+//Use res.status(status).send(body)
 app.listen(port,()=>{
     console.log("Server is run...")
     console.log("hiss ");
 })
 
+/*
 const test = async ()=>{
     commondSync.setAsyncInterval(async () => {
         const promise = requestAxios.useAxiosRequestWithToken().get(`/token/refresh`)
         .then(function (response) {
-            config.oauthToken   = response.data.token.accessTokenKey;
-            config.refreshToken = response.data.token.refresh_token;
+            config.oauthToken   = response.data?.token.accessTokenKey;
+            config.refreshToken = response.data?.token.refresh_token;
             // console.log(`----${config.refreshToken}----`)
             // return
             const qbo = new QuickBooks(config.consumerKey,
@@ -526,6 +560,7 @@ const test = async ()=>{
         }, 5000);    
 }
 test()
+*/
 // 50minutes pour le token
 // 30minutes
 // 
