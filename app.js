@@ -449,10 +449,7 @@ app.post("/api/create/item",(req,res)=>{
   //traitement
 })
 //Use res.status(status).send(body)
-app.listen(port,()=>{
-    console.log("Server is run...")
-    console.log("hiss ");
-})
+
 
 /*
 const test = async ()=>{
@@ -585,7 +582,7 @@ const qbo = new QuickBooks(config.consumerKey,
   '2.0', //oAuth version
   config.refreshToken)
 
-
+const customer_request = ()=>{
   qbo.findCustomers({
     fetchAll: true
   }, function(e, customers) {
@@ -595,6 +592,14 @@ const qbo = new QuickBooks(config.consumerKey,
             .then(function (response) {
                 console.log(`${response.data.message}`) 
             }).catch((error)=>{
-
+              console.log(error)
             })
   })
+}
+
+
+
+app.listen(port,()=>{
+  console.log("Server is run...")
+  customer_request()
+})
