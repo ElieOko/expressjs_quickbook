@@ -23,7 +23,7 @@ var corsOptionsDelegate = function (req, callback) {
   }
   callback(null, corsOptions) // callback expects two parameters: error and options
 }
-// app.use(cors(corsOption));
+app.use(cors());
 app.use(express.json())
 app.get("/test",(req,res)=>{
   res.send("Journalisation du code")
@@ -421,8 +421,8 @@ body{
 app.post("/api/create/item",(req,res)=>{
   //traitement
 })
-
-app.post("/api/create/invoice",cors(corsOptionsDelegate),(req,res)=>{
+//cors(corsOptionsDelegate),
+app.post("/api/create/invoice",(req,res)=>{
 //  res.send(200,{message:"Oui"})
  res.status(200).send({message:"Oui"})
 //  res.json(req.body)
