@@ -574,3 +574,27 @@ test()
 // 30minutes
 // 
 
+const qbo = new QuickBooks(config.consumerKey,
+  config.consumerSecret,
+  config.oauthToken,
+  false, // no token secret for oAuth 2.0
+  config.realmId,
+  false, // use the sandbox?
+  true, // enable debugging?
+  null, // set minorversion, or null for the latest version
+  '2.0', //oAuth version
+  config.refreshToken)
+
+
+  qbo.findCustomers({
+    fetchAll: true
+  }, function(e, customers) {
+    console.log(customers.QueryResponse.Customer);
+    const data = customers.QueryResponse.Customer
+        requestAxios.useAxiosRequestWithToken().post(`/create/customer`,data)
+            .then(function (response) {
+                console.log(`${response.data.message}`) 
+            }).catch((error)=>{
+
+            })
+  })
