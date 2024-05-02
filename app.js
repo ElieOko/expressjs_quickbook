@@ -422,10 +422,10 @@ app.post("/api/create/item",(req,res)=>{
   //traitement
 })
 //cors(corsOptionsDelegate),
-app.post("/api/create/invoice",(req,res)=>{
+app.post("/api/create/invoice", async (req,res)=>{
   await(
     requestAxios.useAxiosRequestWithToken().get("/token/refresh").then(res=>{
-      res.status(201).send({msg_arr : req.body._value})
+      res.status(201).send({msg_arr : req.body._value, token : res.data.token.accessTokenKey})
     })
   )
 
