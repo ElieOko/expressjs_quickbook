@@ -423,16 +423,17 @@ app.post("/api/create/item",(req,res)=>{
 })
 //cors(corsOptionsDelegate),
 app.post("/api/create/invoice",(req,res)=>{
-  requestAxios.useAxiosRequestWithToken().get("/token/refresh").then(res=>{ 
-    res.status(201).send({msg : req.body._value})
-  // requestAxios.getApiWithConfigAxios(res.data.token.accessTokenKey).post("/invoice",req.body._value).then(response=>{
-  //   res.status(201).send({message:"Enregistrement réussie"})
-  // }).catch(er=>{
-  //   res.status(401).send({message:er})
+  res.status(201).send({msg : req.body._value})
+  // requestAxios.useAxiosRequestWithToken().get("/token/refresh").then(res=>{ 
+  //   res.status(201).send({msg : req.body._value})
+  // // requestAxios.getApiWithConfigAxios(res.data.token.accessTokenKey).post("/invoice",req.body._value).then(response=>{
+  // //   res.status(201).send({message:"Enregistrement réussie"})
+  // // }).catch(er=>{
+  // //   res.status(401).send({message:er})
+  // // })
+  // }).catch(err=>{
+  //   res.status(404).send({message:err})
   // })
-  }).catch(err=>{
-    res.status(404).send({message:err})
-  })
 //  res.send(200,{message:"Oui"})
  
 //  res.json(req.body)
