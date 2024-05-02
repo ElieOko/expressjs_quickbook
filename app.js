@@ -606,18 +606,24 @@ const customer_request = ()=>{
   })
 }
 const item_request = () =>{
-  qbo.findItems({
-    fetchAll:true
-    },(e,items)=>{
-        console.log(items.QueryResponse?.Item);
-        const data = items.QueryResponse?.Item
-            requestAxios.useAxiosRequestWithToken().post(`/create/item`,data)
-                .then(function (response) {
-                    console.log(`${response.data.message}`)
-                }).catch((error)=>{
-                    console.log(`${error}`)
-                })
-    })
+  requestAxios.useAxiosRequestWithToken().get("/token/refresh").then(res=>{
+    qbo.token = res.data.token.accessTokenKey
+    qbo.findItems({
+      fetchAll:true
+      },(e,items)=>{
+          console.log(items.QueryResponse?.Item);
+          const data = items.QueryResponse?.Item
+              requestAxios.useAxiosRequestWithToken().post(`/create/item`,data)
+                  .then(function (response) {
+                      console.log(`${response.data.message}`)
+                  }).catch((error)=>{
+                      console.log(`${error}`)
+                  })
+      })
+  }).catch(err=>{
+
+   })
+
 }
 
 
