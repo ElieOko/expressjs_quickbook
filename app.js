@@ -7,7 +7,7 @@ const config = require("./config");
 const QuickBooks = require('node-quickbooks');
 const commondSync = require("./common/utils/fun");
 const requestAxios = require("./common/service/axios")
-
+var token = ""
 // const corsOption = {
 //     credences : true,
 //     origin : ['https://expressjs-quickbook.vercel.app/',"*"]
@@ -422,12 +422,17 @@ app.post("/api/create/item",(req,res)=>{
   //traitement
 })
 //cors(corsOptionsDelegate),
-app.post("/api/create/invoice", async (req,res)=>{
-  await(
-    requestAxios.useAxiosRequestWithToken().get("/token/refresh").then(res=>{
-      res.status(201).send({msg_arr : req.body._value, token : res.data.token.accessTokenKey})
-    })
-  )
+app.post("/api/create/invoice", (req,res)=>{
+  qbo.createInvoice(req.body._value,(err)=>{
+    if(err){
+      res.status(201).send({msg_arr : err})
+    }
+  })
+  // await(
+  //   requestAxios.useAxiosRequestWithToken().get("/token/refresh").then(res=>{
+  //     res.status(201).send({msg_arr : req.body._value, token : res.data.token.accessTokenKey})
+  //   })
+  // )
 
   // requestAxios.useAxiosRequestWithToken().get("/token/refresh").then(res=>{ 
   //   res.status(201).send({msg : req.body._value})
@@ -632,6 +637,7 @@ const item_request = () =>{
    })
 
 }
+
 
 
 https://{{baseurl}}/v3/company/{{companyid}}/invoice?minorversion={{minorversion}}
