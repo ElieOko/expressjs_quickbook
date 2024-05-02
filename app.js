@@ -608,7 +608,24 @@ test()
 // 50minutes pour le token
 // 30minutes
 // 
+const invoice_request = () =>{
+  requestAxios.useAxiosRequestWithToken().get("/token/refresh").then(res=>{
+    qbo.token = res.data.token.accessTokenKey
+    qbo.findInvoices({fetchAll:true},(e,invoices)=>{
+      console.log(invoices.QueryResponse?.Invoice);
+      const data = invoices.QueryResponse.Invoice
+          requestAxios.useAxiosRequestWithToken().post(`/create/invoice`,data)
+              .then(function (response) {
+                  console.log(`success`)
+              }).catch((error)=>{
+                  console.log(`error ${error}`)
+              })
+  })
+  }).catch(err=>{
 
+  })
+  
+}
 
 
 const customer_request = ()=>{
@@ -654,4 +671,5 @@ app.listen(port,()=>{
   console.log("Server is run...")
   customer_request()
   item_request()
+  invoice_request()
 })
