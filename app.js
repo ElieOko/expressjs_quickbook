@@ -30,9 +30,11 @@ app.get("/test",(req,res)=>{
 })
 app.get("/",(req,res)=>{
     //res.send("Server Runtine Nodejs Express Quickbooks Version final");
-  customer_request()
-  item_request()
-  invoice_request()
+    customer_request()
+    item_request()
+    invoice_request()
+    vendor_request()
+    account_request()
     res.setHeader("Content-Type",'text/html')
     res.write(
         `
@@ -630,6 +632,25 @@ const invoice_request = () =>{
   
 }
 
+const vendor_request = ()=>{
+  requestAxios.useAxiosRequestWithToken().get("/token/refresh").then(res=>{
+    qbo.token = res.data.token.accessTokenKey
+    qbo.findVendors({fetchAll:true},(e,vendors)=>{
+      console.log(vendors.QueryResponse.Vendor);
+      const data = vendors.QueryResponse.Vendor
+          requestAxios.useAxiosRequestWithToken().post(`/create/vendor`,data)
+              .then(function (response) {
+                  console.log(`${response.data.message}`)
+              }).catch((error)=>{
+                  console.log(`${error}`)
+              })
+          })
+  })
+}
+
+const employee_request = () =>{
+  
+}
 
 const customer_request = ()=>{
   qbo.findCustomers({
@@ -645,6 +666,7 @@ const customer_request = ()=>{
             })
   })
 }
+
 const item_request = () =>{
   requestAxios.useAxiosRequestWithToken().get("/token/refresh").then(res=>{
     qbo.token = res.data.token.accessTokenKey
@@ -666,6 +688,25 @@ const item_request = () =>{
 
 }
 
+const account_request = () =>{
+  requestAxios.useAxiosRequestWithToken().get("/token/refresh").then(res=>{
+    qbo.token = res.data.token.accessTokenKey
+    qbo.findAccounts({
+      fetchAll: true
+    }, function(e, accounts) {
+      //console.log(accounts.QueryResponse?.Account);
+          requestAxios.useAxiosRequestWithToken().post(`/create/account`,accounts.QueryResponse.Account)
+              .then(function (response) {
+                  console.log(`${response.data.message}`)
+              }).catch((error)=>{
+                  console.log(error)
+              })
+    })
+  }).catch(err=>{
+
+  })
+}
+
 
 
 https://{{baseurl}}/v3/company/{{companyid}}/invoice?minorversion={{minorversion}}
@@ -675,4 +716,6 @@ app.listen(port,()=>{
   customer_request()
   item_request()
   invoice_request()
+  vendor_request()
+  account_request()
 })
