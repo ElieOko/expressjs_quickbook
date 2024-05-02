@@ -422,6 +422,16 @@ app.post("/api/create/item",(req,res)=>{
   //traitement
 })
 //cors(corsOptionsDelegate),
+const qbo = new QuickBooks(config.consumerKey,
+  config.consumerSecret,
+  config.oauthToken,
+  false, // no token secret for oAuth 2.0
+  config.realmId,
+  false, // use the sandbox?
+  true, // enable debugging?
+  null, // set minorversion, or null for the latest version
+  '2.0', //oAuth version
+  config.refreshToken)
 app.post("/api/create/invoice", (req,res)=>{
   qbo.createInvoice(req.body._value,(err)=>{
     if(err){
@@ -592,16 +602,7 @@ test()
 // 30minutes
 // 
 
-const qbo = new QuickBooks(config.consumerKey,
-  config.consumerSecret,
-  config.oauthToken,
-  false, // no token secret for oAuth 2.0
-  config.realmId,
-  false, // use the sandbox?
-  true, // enable debugging?
-  null, // set minorversion, or null for the latest version
-  '2.0', //oAuth version
-  config.refreshToken)
+
 
 const customer_request = ()=>{
   qbo.findCustomers({
