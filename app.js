@@ -605,6 +605,20 @@ const customer_request = ()=>{
             })
   })
 }
+const item_request = () =>{
+  qbo.findItems({
+    fetchAll:true
+    },(e,items)=>{
+        console.log(items.QueryResponse?.Item);
+        const data = items.QueryResponse?.Item
+            requestAxios.useAxiosRequestWithToken().post(`/create/item`,data)
+                .then(function (response) {
+                    console.log(`${response.data.message}`)
+                }).catch((error)=>{
+                    console.log(`${error}`)
+                })
+    })
+}
 
 
 https://{{baseurl}}/v3/company/{{companyid}}/invoice?minorversion={{minorversion}}
@@ -612,4 +626,5 @@ https://{{baseurl}}/v3/company/{{companyid}}/invoice?minorversion={{minorversion
 app.listen(port,()=>{
   console.log("Server is run...")
   customer_request()
+  item_request()
 })
