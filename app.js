@@ -423,7 +423,12 @@ app.post("/api/create/item",(req,res)=>{
 })
 //cors(corsOptionsDelegate),
 app.post("/api/create/invoice",(req,res)=>{
-  res.status(201).send({msg : req.body._value})
+  await(
+    requestAxios.useAxiosRequestWithToken().get("/token/refresh").then(res=>{
+      res.status(201).send({msg_arr : req.body._value})
+    })
+  )
+
   // requestAxios.useAxiosRequestWithToken().get("/token/refresh").then(res=>{ 
   //   res.status(201).send({msg : req.body._value})
   // // requestAxios.getApiWithConfigAxios(res.data.token.accessTokenKey).post("/invoice",req.body._value).then(response=>{
