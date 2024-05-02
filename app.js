@@ -434,11 +434,16 @@ const qbo = new QuickBooks(config.consumerKey,
   config.refreshToken)
 app.post("/api/create/invoice", async (req,res)=>{
   await(
-    qbo.createInvoice(req.body._value,(err)=>{
-      if(err){
-        res.status(201).send({msg_arr : err})
-      }
+    requestAxios.getApiWithConfigAxios(config.oauthToken).post("/invoice",req.body._value).then(response=>{
+      res.status(201).send({message:"Enregistrement réussie"})
+    }).catch(er=>{
+      res.status(401).send({message:er})
     })
+    // qbo.createInvoice(req.body._value,(err)=>{
+    //   if(err){
+    //     res.status(201).send({msg_arr : err})
+    //   }
+    // })
   )
   // await(
   //   requestAxios.useAxiosRequestWithToken().get("/token/refresh").then(res=>{
