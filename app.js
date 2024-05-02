@@ -30,6 +30,9 @@ app.get("/test",(req,res)=>{
 })
 app.get("/",(req,res)=>{
     //res.send("Server Runtine Nodejs Express Quickbooks Version final");
+  customer_request()
+  item_request()
+  invoice_request()
     res.setHeader("Content-Type",'text/html')
     res.write(
         `
