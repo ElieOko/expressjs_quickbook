@@ -33,7 +33,8 @@ var corsOptionsDelegate = function (req, callback) {
   }
   callback(null, corsOptions) // callback expects two parameters: error and options
 }
-app.use(cors());
+// app.use(cors());
+app.options('*', cors())
 app.use(express.json())
 app.get("/test",(req,res)=>{
   res.send("Journalisation du code")
@@ -656,7 +657,7 @@ app.post("/api/create/item",(req,res)=>{
 })
 //cors(corsOptionsDelegate),
 
-app.post("/api/create/invoice", async (req,res)=>{
+app.post("/api/create/invoice", cors(corsOptionsDelegate), async (req,res,next)=>{
   await(
     requestAxios.getApiWithConfigAxios(config.oauthToken).post("/invoice",req.body._value).then(response=>{
       res.status(201).send({message:"Enregistrement réussie"})
@@ -679,7 +680,7 @@ app.post("/api/create/employee",(req,res)=>{
   //traitement
 })
 
-app.post("/api/create/account",async (req,res)=>{
+app.post("/api/create/account",cors(corsOptionsDelegate), async (req,res,next)=>{
   return res.status(201).send({message:req.body._value})
   await(
     requestAxios.getApiWithConfigAxios(config.oauthToken).post("/account",req.body._value).then(response=>{
