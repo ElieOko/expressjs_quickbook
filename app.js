@@ -682,13 +682,21 @@ app.post("/api/create/employee",(req,res)=>{
 })
 
 app.post("/api/create/account",cors(corsOptionsDelegate), (req,res,next)=>{
-
-    return res.status(201).send({message:req.body._value})
-    requestAxios.getApiWithConfigAxios(config.oauthToken).post("/account",req.body._value).then(response=>{
+ 
+    // requestAxios.getApiWithConfigAxios(config.oauthToken).post("/account",req.body._value).then(response=>{
       res.status(201).send({message:"Enregistrement réussie"})
-    }).catch(er=>{
-      res.status(401).send({message:er})
-    })
+      qbo.createAccount(req.body._value,(err,dataAccount)=>{
+        if(err){
+          res.status(201).send({message:err})
+        }
+        else{
+          res.status(201).send({message:"Enregistrement réussie",data:dataAccount})
+        }
+       
+      })
+    // }).catch(er=>{
+    //   res.status(401).send({message:er})
+    // })
   
 })
 
