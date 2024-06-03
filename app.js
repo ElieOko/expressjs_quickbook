@@ -35,7 +35,8 @@ var corsOptionsDelegate = function (req, callback) {
 }
 app.use(cors({
   origin:"*",
-  methods:["POST","GET","PUT","PATCH"]
+  methods:"POST",
+  credentials: true
 }));
 // app.options('*', cors())
 app.use(express.json())
