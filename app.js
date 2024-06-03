@@ -685,15 +685,16 @@ app.post("/api/create/employee",(req,res)=>{
   //traitement
 })
 
-app.post("/api/create/account",cors(), (req,res,next)=>{
+app.post("/api/create/account",cors(), async (req,res,next)=>{
   // await(
   //  // response.status(201).send({message:"Enregistrement réussie",data:req.body._value})
   //  //console.log("ddjdj")
   // )
  
   // requestAxios.useAxiosRequestWithToken().get("/token/refresh").then(res=>{
-    qbo.token = res.data.token.accessTokenKey
+    // qbo.token = res.data.token.accessTokenKey
     //res.status(201).send({message:"Enregistrement réussie",token:qbo.token})
+    res.status(201).send({message:"Enregistrement réussie",data:req.body._value})
     qbo.createAccount(req.body._value,(err,dataAccount)=>{
       if(err){
         res.status(401).send({message:err})
