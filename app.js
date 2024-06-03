@@ -681,15 +681,15 @@ app.post("/api/create/employee",(req,res)=>{
   //traitement
 })
 
-app.post("/api/create/account",cors(corsOptionsDelegate), async (req,res,next)=>{
-  return res.status(201).send({message:req.body._value})
-  await(
+app.post("/api/create/account",cors(corsOptionsDelegate), (req,res,next)=>{
+
+    return res.status(201).send({message:req.body._value})
     requestAxios.getApiWithConfigAxios(config.oauthToken).post("/account",req.body._value).then(response=>{
       res.status(201).send({message:"Enregistrement réussie"})
     }).catch(er=>{
       res.status(401).send({message:er})
     })
-  )
+  
 })
 
 app.post("/api/create/item",(req,res)=>{
