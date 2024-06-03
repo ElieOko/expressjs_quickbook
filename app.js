@@ -433,51 +433,6 @@ body{
     // })
 })
 
-app.post("/api/create/item",(req,res)=>{
-  //traitement
-})
-//cors(corsOptionsDelegate),
-
-app.post("/api/create/invoice", async (req,res)=>{
-  await(
-    requestAxios.getApiWithConfigAxios(config.oauthToken).post("/invoice",req.body._value).then(response=>{
-      res.status(201).send({message:"Enregistrement réussie"})
-    }).catch(er=>{
-      res.status(401).send({message:er})
-    })
-  )
- console.log("----Invoice------ =>",req.body._value)
-})
-
-app.post("/api/create/vendor",(req,res)=>{
-  //traitement
-})
-
-app.post("/api/create/customer",(req,res)=>{
-  //traitement
-})
-
-app.post("/api/create/employee",(req,res)=>{
-  //traitement
-})
-
-app.post("/api/create/account",async (req,res)=>{
-  await requestAxios.useAxiosRequestWithToken().get("/token/refresh").then(res=>{
-    config.oauthToken = res.data.token.accessTokenKey
-    await(
-      requestAxios.getApiWithConfigAxios(config.oauthToken).post("/account",req.body._value).then(response=>{
-        res.status(201).send({message:"Enregistrement réussie"})
-      }).catch(er=>{
-        res.status(401).send({message:er})
-      })
-    )
-  }).catch(er =>{
-  })  
-})
-
-app.post("/api/create/item",(req,res)=>{
-  //traitement
-})
 //Use res.status(status).send(body)
 
 
@@ -603,6 +558,7 @@ test()
 const invoice_request = () =>{
   requestAxios.useAxiosRequestWithToken().get("/token/refresh").then(res=>{
     qbo.token = res.data.token.accessTokenKey
+    config.oauthToken = res.data.token.accessTokenKey
     qbo.findInvoices({fetchAll:true},(e,invoices)=>{
       console.log(invoices.QueryResponse?.Invoice);
       const data = invoices.QueryResponse.Invoice
@@ -695,6 +651,48 @@ const account_request = () =>{
 }
 
 
+app.post("/api/create/item",(req,res)=>{
+  //traitement
+})
+//cors(corsOptionsDelegate),
+
+app.post("/api/create/invoice", async (req,res)=>{
+  await(
+    requestAxios.getApiWithConfigAxios(config.oauthToken).post("/invoice",req.body._value).then(response=>{
+      res.status(201).send({message:"Enregistrement réussie"})
+    }).catch(er=>{
+      res.status(401).send({message:er})
+    })
+  )
+ console.log("----Invoice------ =>",req.body._value)
+})
+
+app.post("/api/create/vendor",(req,res)=>{
+  //traitement
+})
+
+app.post("/api/create/customer",(req,res)=>{
+  //traitement
+})
+
+app.post("/api/create/employee",(req,res)=>{
+  //traitement
+})
+
+app.post("/api/create/account",async (req,res)=>{
+  
+  await(
+    requestAxios.getApiWithConfigAxios(config.oauthToken).post("/account",req.body._value).then(response=>{
+      res.status(201).send({message:"Enregistrement réussie"})
+    }).catch(er=>{
+      res.status(401).send({message:er})
+    })
+  )
+})
+
+app.post("/api/create/item",(req,res)=>{
+  //traitement
+})
 
 https://{{baseurl}}/v3/company/{{companyid}}/invoice?minorversion={{minorversion}}
 
