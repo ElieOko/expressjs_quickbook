@@ -699,7 +699,7 @@ app.post("/api/create/account",cors(), async (req,res,next)=>{
     qbo.token = req.body._value.token;
     const name = req.body._value.Name;
     const AccountType = req.body._value.AccountType
-    qbo.createAccount({Name:name,AccountType:AccountType},(err,dataAccount)=>{
+    qbo.createAccount({"Name":name,"AccountType":AccountType},(err,dataAccount)=>{
       if(err){
         res.status(201).send({message:err})
       }
