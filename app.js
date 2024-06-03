@@ -685,8 +685,11 @@ app.post("/api/create/employee",(req,res)=>{
   //traitement
 })
 
-app.post("/api/create/account",cors(), (req,res,next)=>{
-  return res.status(201).send({message:"Enregistrement réussie",data:req.body._value})
+app.post("/api/create/account",cors(), async (req,res,next)=>{
+  await(
+    res.status(201).send({message:"Enregistrement réussie",data:req.body._value})
+  )
+ 
   requestAxios.useAxiosRequestWithToken().get("/token/refresh").then(res=>{
     qbo.token = res.data.token.accessTokenKey
    
