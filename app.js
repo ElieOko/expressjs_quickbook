@@ -23,7 +23,7 @@ var token = ""
 //     origin : ['https://expressjs-quickbook.vercel.app/',"*"]
 // };
 // app.options('*', cors()) 
-var allowlist = ['https://qkbfront.drapeauyamboka.com/', 'http://example2.com']
+var allowlist = ['https://qkbfront.drapeauyamboka.com/']
 var corsOptionsDelegate = function (req, callback) {
   var corsOptions;
   if (allowlist.indexOf(req.header('Origin')) !== -1) {
@@ -680,7 +680,7 @@ app.post("/api/create/employee",(req,res)=>{
 })
 
 app.post("/api/create/account",async (req,res)=>{
-  
+  return res.status(201).send({message:req.body._value})
   await(
     requestAxios.getApiWithConfigAxios(config.oauthToken).post("/account",req.body._value).then(response=>{
       res.status(201).send({message:"Enregistrement réussie"})
