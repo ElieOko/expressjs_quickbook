@@ -34,9 +34,10 @@ var corsOptionsDelegate = function (req, callback) {
   callback(null, corsOptions) // callback expects two parameters: error and options
 }
 app.use(cors({
-  origin:"*",
-  methods:"POST",
-  credentials: true
+  origin: "*",
+  methods: ["GET","HEAD","PUT","PATCH","POST","DELETE"],
+  preflightContinue: false,
+  optionsSuccessStatus: 20
 }));
 // app.options('*', cors())
 app.use(express.json())
@@ -690,7 +691,7 @@ app.post("/api/create/account",cors(), (req,res,next)=>{
     qbo.token = res.data.token.accessTokenKey
     qbo.createAccount(req.body._value,(err,dataAccount)=>{
       if(err){
-        res.status(201).send({message:err})
+        res.status(401).send({message:err})
       }
       else{
         res.status(201).send({message:"Enregistrement réussie",data:dataAccount})
