@@ -462,13 +462,17 @@ app.post("/api/create/employee",(req,res)=>{
 })
 
 app.post("/api/create/account",async (req,res)=>{
-  await(
-    requestAxios.getApiWithConfigAxios(config.oauthToken).post("/account",req.body._value).then(response=>{
-      res.status(201).send({message:"Enregistrement réussie"})
-    }).catch(er=>{
-      res.status(401).send({message:er})
-    })
-  )
+  await requestAxios.useAxiosRequestWithToken().get("/token/refresh").then(res=>{
+    config.oauthToken = res.data.token.accessTokenKey
+    await(
+      requestAxios.getApiWithConfigAxios(config.oauthToken).post("/account",req.body._value).then(response=>{
+        res.status(201).send({message:"Enregistrement réussie"})
+      }).catch(er=>{
+        res.status(401).send({message:er})
+      })
+    )
+  }).catch(er =>{
+  })  
 })
 
 app.post("/api/create/item",(req,res)=>{
