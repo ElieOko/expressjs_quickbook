@@ -707,7 +707,6 @@ app.post("/api/create/account",cors(), (req,res,next)=>{
     //   res.status(401).send({message:er})
     // })
   
-})
 
 app.post("/api/create/item",(req,res)=>{
   //traitement
