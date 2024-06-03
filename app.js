@@ -682,17 +682,20 @@ app.post("/api/create/employee",(req,res)=>{
 })
 
 app.post("/api/create/account",cors(corsOptionsDelegate), (req,res,next)=>{
- 
+  requestAxios.useAxiosRequestWithToken().get("/token/refresh").then(res=>{
+    qbo.token = res.data.token.accessTokenKey
+    qbo.createAccount(req.body._value,(err,dataAccount)=>{
+      if(err){
+        res.status(201).send({message:err})
+      }
+      else{
+        res.status(201).send({message:"Enregistrement réussie",data:dataAccount})
+      }
+     
+    })
+  })
     // requestAxios.getApiWithConfigAxios(config.oauthToken).post("/account",req.body._value).then(response=>{
-      qbo.createAccount(req.body._value,(err,dataAccount)=>{
-        if(err){
-          res.status(201).send({message:err})
-        }
-        else{
-          res.status(201).send({message:"Enregistrement réussie",data:dataAccount})
-        }
-       
-      })
+      
     // }).catch(er=>{
     //   res.status(401).send({message:er})
     // })
