@@ -33,8 +33,8 @@ var corsOptionsDelegate = function (req, callback) {
   }
   callback(null, corsOptions) // callback expects two parameters: error and options
 }
-// app.use(cors());
-app.options('*', cors())
+app.use(cors());
+// app.options('*', cors())
 app.use(express.json())
 app.get("/test",(req,res)=>{
   res.send("Journalisation du code")
