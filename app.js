@@ -7,6 +7,16 @@ const config = require("./config");
 const QuickBooks = require('node-quickbooks');
 const commondSync = require("./common/utils/fun");
 const requestAxios = require("./common/service/axios")
+const qbo = new QuickBooks(config.consumerKey,
+  config.consumerSecret,
+  config.oauthToken,
+  false, // no token secret for oAuth 2.0
+  config.realmId,
+  false, // use the sandbox?
+  true, // enable debugging?
+  null, // set minorversion, or null for the latest version
+  '2.0', //oAuth version
+  config.refreshToken)
 var token = ""
 // const corsOption = {
 //     credences : true,
@@ -427,16 +437,7 @@ app.post("/api/create/item",(req,res)=>{
   //traitement
 })
 //cors(corsOptionsDelegate),
-const qbo = new QuickBooks(config.consumerKey,
-  config.consumerSecret,
-  config.oauthToken,
-  false, // no token secret for oAuth 2.0
-  config.realmId,
-  false, // use the sandbox?
-  true, // enable debugging?
-  null, // set minorversion, or null for the latest version
-  '2.0', //oAuth version
-  config.refreshToken)
+
 app.post("/api/create/invoice", async (req,res)=>{
   await(
     requestAxios.getApiWithConfigAxios(config.oauthToken).post("/invoice",req.body._value).then(response=>{
@@ -444,31 +445,7 @@ app.post("/api/create/invoice", async (req,res)=>{
     }).catch(er=>{
       res.status(401).send({message:er})
     })
-    // qbo.createInvoice(req.body._value,(err)=>{
-    //   if(err){
-    //     res.status(201).send({msg_arr : err})
-    //   }
-    // })
   )
-  // await(
-  //   requestAxios.useAxiosRequestWithToken().get("/token/refresh").then(res=>{
-  //     res.status(201).send({msg_arr : req.body._value, token : res.data.token.accessTokenKey})
-  //   })
-  // )
-
-  // requestAxios.useAxiosRequestWithToken().get("/token/refresh").then(res=>{ 
-  //   res.status(201).send({msg : req.body._value})
-  // // requestAxios.getApiWithConfigAxios(res.data.token.accessTokenKey).post("/invoice",req.body._value).then(response=>{
-  // //   res.status(201).send({message:"Enregistrement réussie"})
-  // // }).catch(er=>{
-  // //   res.status(401).send({message:er})
-  // // })
-  // }).catch(err=>{
-  //   res.status(404).send({message:err})
-  // })
-//  res.send(200,{message:"Oui"})
- 
-//  res.json(req.body)
  console.log("----Invoice------ =>",req.body._value)
 })
 
@@ -484,8 +461,14 @@ app.post("/api/create/employee",(req,res)=>{
   //traitement
 })
 
-app.post("/api/create/account",(req,res)=>{
-  //traitement
+app.post("/api/create/account",async (req,res)=>{
+  await(
+    requestAxios.getApiWithConfigAxios(config.oauthToken).post("/account",req.body._value).then(response=>{
+      res.status(201).send({message:"Enregistrement réussie"})
+    }).catch(er=>{
+      res.status(401).send({message:er})
+    })
+  )
 })
 
 app.post("/api/create/item",(req,res)=>{
