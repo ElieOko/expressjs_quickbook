@@ -641,7 +641,7 @@ const account_request = () =>{
       //console.log(accounts.QueryResponse?.Account);
           requestAxios.useAxiosRequestWithToken().post(`/create/account`,accounts.QueryResponse.Account)
               .then(function (response) {
-                  console.log(`*****************ACCOUNT***************`)
+                  console.log(`*******ACCOUNT***************`)
                   console.log(`${response.data.message}`)
               }).catch((error)=>{
                   console.log(error)
@@ -682,7 +682,7 @@ app.post("/api/create/employee",(req,res)=>{
 })
 
 app.post("/api/create/account",cors(corsOptionsDelegate), async (req,res,next)=>{
-  // return res.status(201).send({message:req.body._value})
+  return res.status(201).send({message:req.body._value})
   await(
     requestAxios.getApiWithConfigAxios(config.oauthToken).post("/account",req.body._value).then(response=>{
       res.status(201).send({message:"Enregistrement réussie"})
