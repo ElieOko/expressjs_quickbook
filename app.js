@@ -695,7 +695,11 @@ app.post("/api/create/account",cors(), async (req,res,next)=>{
     // qbo.token = res.data.token.accessTokenKey
     //res.status(201).send({message:"Enregistrement réussie",token:qbo.token})
     //res.status(201).send({message:"Enregistrement réussie",data:req.body._value})
-    qbo.createAccount(req.body._value,(err,dataAccount)=>{
+    
+    qbo.token = req.body._value.token;
+    const name = req.body._value.Name;
+    const AccountType = req.body._value.AccountType
+    qbo.createAccount({Name:name,AccountType:AccountType},(err,dataAccount)=>{
       if(err){
         res.status(201).send({message:err})
       }
