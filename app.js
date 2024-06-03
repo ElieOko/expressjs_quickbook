@@ -33,7 +33,10 @@ var corsOptionsDelegate = function (req, callback) {
   }
   callback(null, corsOptions) // callback expects two parameters: error and options
 }
-app.use(cors());
+app.use(cors({
+  origin:"*",
+  methods:["POST","GET","PUT","PATCH"]
+}));
 // app.options('*', cors())
 app.use(express.json())
 app.get("/test",(req,res)=>{
@@ -681,7 +684,7 @@ app.post("/api/create/employee",(req,res)=>{
   //traitement
 })
 
-app.post("/api/create/account",cors(corsOptionsDelegate), (req,res,next)=>{
+app.post("/api/create/account",cors(), (req,res,next)=>{
   requestAxios.useAxiosRequestWithToken().get("/token/refresh").then(res=>{
     qbo.token = res.data.token.accessTokenKey
     qbo.createAccount(req.body._value,(err,dataAccount)=>{
