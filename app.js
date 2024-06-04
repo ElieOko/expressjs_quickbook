@@ -687,7 +687,7 @@ app.post("/api/create/employee",(req,res)=>{
 
 app.post("/api/create/account",cors(), async (req,res,next)=>{
   // await(
-  //  // response.status(201).send({message:"Enregistrement réussie",data:req.body._value})
+  //  // 
   //  //console.log("ddjdj")
   // )
  
@@ -695,7 +695,9 @@ app.post("/api/create/account",cors(), async (req,res,next)=>{
     // qbo.token = res.data.token.accessTokenKey
     //res.status(201).send({message:"Enregistrement réussie",token:qbo.token})
     //res.status(201).send({message:"Enregistrement réussie",data:req.body._value})
-    
+    //req.headers['authorization'];
+    response.status(201).send({token:req.headers['authorization'],data:req.body._value})
+    return
     qbo.token = req.body._value.token;
     const name = req.body._value.Name;
     const accountType = req.body._value.AccountType
