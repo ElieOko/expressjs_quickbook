@@ -681,8 +681,8 @@ app.post("/api/create/employee",(req,res)=>{
   //traitement
 })
 
-app.get("/api/create/account",(req,res)=>{
-   res.status(201).send({message:"UI/UX"});
+app.post("/api/create/account",(req,res)=>{
+   
   // await(
   //  // 
   //  //console.log("ddjdj")
@@ -693,8 +693,14 @@ app.get("/api/create/account",(req,res)=>{
     //res.status(201).send({message:"Enregistrement réussie",token:qbo.token})
     //res.status(201).send({message:"Enregistrement réussie",data:req.body._value})
     //req.headers['authorization'];
-    
-    
+    // res.status(201).send({message:"UI/UX"});
+    await(
+      requestAxios.getApiWithConfigAxios(config.oauthToken).post("/account",req.body._value).then(response=>{
+        res.status(201).send({message:"Enregistrement réussie"})
+      }).catch(er=>{
+        res.status(401).send({message:er})
+      })
+    )
   //   qbo.token = req.body._value.token;
   //   const name = req.body._value.Name;
   //   const accountType = req.body._value.AccountType
