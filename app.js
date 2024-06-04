@@ -688,7 +688,7 @@ app.post("/api/create/account",(req,res)=>{
     //res.status(201).send({message:"Enregistrement réussie",data:req.body._value})
     //req.headers['authorization'];
     //token:req.headers['authorization'],
-    response.status(201).send({data:req.body._value})
+    response.status(201).send({data:"oui"})
     return
     qbo.token = req.body._value.token;
     const name = req.body._value.Name;
