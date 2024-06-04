@@ -698,7 +698,7 @@ app.post("/api/create/account",cors(),async(req,resp)=>{
           "Name":name
         },(err,dataAccount)=>{
             if(err){
-              resp.status(201).send({message:err,test:typeAccount})
+              resp.status(201).send({message:err,test:typeof(typeAccount)})
             }
             else{
               resp.status(201).send({message:"Enregistrement réussie",data:dataAccount})
