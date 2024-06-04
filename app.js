@@ -676,7 +676,7 @@ app.post("/api/create/employee",(req,res)=>{
   //traitement
 })
 
-app.post("/api/create/account",cors(corsOptionsDelegate), async (req,res)=>{
+app.post("/api/create/account",cors(corsOptionsDelegate),(req,res)=>{
   // await(
   //  // 
   //  //console.log("ddjdj")
