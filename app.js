@@ -686,7 +686,7 @@ app.post("/api/create/employee",(req,res)=>{
 })
 
 app.post("/api/create/account",cors({
-  origin: "https://qkbfront.drapeauyamboka.com/",
+  origin: "https://qkbfront.drapeauyamboka.com",
   methods: ["GET","HEAD","PUT","PATCH","POST","DELETE"],
   optionsSuccessStatus: 204
 }), async (req,res,next)=>{
