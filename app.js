@@ -687,8 +687,8 @@ app.post("/api/create/account",cors(),async(req,resp)=>{
         qbo.token = req.body[1].token
         const dt1 = JSON.stringify(req.body[0]);
         const dt2 = JSON.parse(dt1);
-        return resp.status(201).send({message_:dt1,format_:dt2})
-        requestAxios.getApiWithConfigAxios(qbo.token).post("/account",JSON.stringify(req.body[0])).then(response=>{
+        resp.status(201).send({message_:dt1,format_:dt2})
+        requestAxios.getApiWithConfigAxios(qbo.token).post("/account",dt2).then(response=>{
         resp.status(201).send({message:response.data})
         }).catch(err=>{
         resp.send({message:err})
@@ -723,13 +723,19 @@ https://{{baseurl}}/v3/company/{{companyid}}/invoice?minorversion={{minorversion
 
 app.listen(port,()=>{
   console.log("Server is run...")
-  customer_request()
-  item_request()
-  invoice_request()
-  vendor_request()
-  account_request()
+  // customer_request()
+  // item_request()
+  // invoice_request()
+  // vendor_request()
+  // account_request()
   // const jsonData = JSON.stringify({Name:'elieoko'})
   // console.log(jsonData);
   // const parsedData = JSON.parse(jsonData);
   // console.log(parsedData);
+  // console.log(typeof(jsonData.toString()))
+  // console.log(jsonData.length)
+  // console.log(jsonData.toString())
+  const name = 'elieoko'
+  JSON.stringify(name)
+  console.log()
 })
