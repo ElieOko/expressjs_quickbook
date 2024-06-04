@@ -18,28 +18,19 @@ const qbo = new QuickBooks(config.consumerKey,
   '2.0', //oAuth version
   config.refreshToken)
 var token = ""
-// const corsOption = {
-//     credences : true,
-//     origin : ['https://expressjs-quickbook.vercel.app/',"*"]
-// };
-// app.options('*', cors()) 
-var allowlist = ['https://qkbfront.drapeauyamboka.com']
+app.use(cors());
+
+var allowlist = ['https://qkbfront.drapeauyamboka.com','*']
 var corsOptionsDelegate = function (req, callback) {
   var corsOptions;
   if (allowlist.indexOf(req.header('Origin')) !== -1) {
-    corsOptions = { origin: true } // reflect (enable) the requested origin in the CORS response
+    corsOptions = { origin: true,optionsSuccessStatus:200 } // reflect (enable) the requested origin in the CORS response
   } else {
-    corsOptions = { origin: false } // disable CORS for this request
+    corsOptions = { origin: false,optionsSuccessStatus:401 } // disable CORS for this request
   }
   callback(null, corsOptions) // callback expects two parameters: error and options
 }
-app.use(cors({
-  origin: "https://qkbfront.drapeauyamboka.com",
-  methods: ["GET","HEAD","PUT","PATCH","POST","DELETE"],
-  optionsSuccessStatus: 204
-}));
-// app.options('*', cors())
-app.use(express.json())
+
 app.get("/test",(req,res)=>{
   res.send("Journalisation du code")
 })
@@ -685,11 +676,7 @@ app.post("/api/create/employee",(req,res)=>{
   //traitement
 })
 
-app.post("/api/create/account",cors({
-  origin: "https://qkbfront.drapeauyamboka.com",
-  methods: ["GET","HEAD","PUT","PATCH","POST","DELETE"],
-  optionsSuccessStatus: 204
-}), async (req,res,next)=>{
+app.post("/api/create/account",cors(corsOptionsDelegate), async (req,res)=>{
   // await(
   //  // 
   //  //console.log("ddjdj")
@@ -700,7 +687,8 @@ app.post("/api/create/account",cors({
     //res.status(201).send({message:"Enregistrement réussie",token:qbo.token})
     //res.status(201).send({message:"Enregistrement réussie",data:req.body._value})
     //req.headers['authorization'];
-    response.status(201).send({token:req.headers['authorization'],data:req.body._value})
+    //token:req.headers['authorization'],
+    response.status(201).send({data:req.body._value})
     return
     qbo.token = req.body._value.token;
     const name = req.body._value.Name;
