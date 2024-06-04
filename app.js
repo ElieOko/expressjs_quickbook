@@ -6,7 +6,8 @@ const fs = require("fs");
 const config = require("./config");
 const QuickBooks = require('node-quickbooks');
 const commondSync = require("./common/utils/fun");
-const requestAxios = require("./common/service/axios")
+const requestAxios = require("./common/service/axios");
+const { strict } = require("assert");
 const qbo = new QuickBooks(config.consumerKey,
   config.consumerSecret,
   config.oauthToken,
@@ -685,13 +686,16 @@ app.post("/api/create/account",cors(),async(req,resp)=>{
     //  requestAxios.useAxiosRequestWithToken().get("/token/refresh").then(res=>{
         qbo.token = req.body[1].token
         const dt2 = req.body[0];
-        const account = req.body[0].Account;
+        const name = req.body[0].Name;
         const typeAccount = req.body[0].AccountType;
+        console.log("************BODY=>*******************",req.body[0]);
+        console.log("************TYPE=>*******************",req.body[0]);
+        console.log("**************VALUE=>",name);
         // resp.status(201).send({message_:req.body_value });
         // resp.status(201).send({message_:       const dt1 = JSON.stringify(req.body[0]);dt1,format_:dresp.status(201).send({message_:dt1,format_:dt2})t2})
         qbo.createAccount({
           "AccountType":typeAccount,
-          "Name":account
+          "Name":name
         },(err,dataAccount)=>{
             if(err){
               resp.status(201).send({message:err})
