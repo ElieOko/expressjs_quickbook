@@ -23,7 +23,7 @@ var token = ""
 //     origin : ['https://expressjs-quickbook.vercel.app/',"*"]
 // };
 // app.options('*', cors()) 
-var allowlist = ['https://qkbfront.drapeauyamboka.com/']
+var allowlist = ['https://qkbfront.drapeauyamboka.com']
 var corsOptionsDelegate = function (req, callback) {
   var corsOptions;
   if (allowlist.indexOf(req.header('Origin')) !== -1) {
@@ -34,7 +34,7 @@ var corsOptionsDelegate = function (req, callback) {
   callback(null, corsOptions) // callback expects two parameters: error and options
 }
 app.use(cors({
-  origin: "https://qkbfront.drapeauyamboka.com/",
+  origin: "https://qkbfront.drapeauyamboka.com",
   methods: ["GET","HEAD","PUT","PATCH","POST","DELETE"],
   optionsSuccessStatus: 204
 }));
