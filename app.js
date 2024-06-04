@@ -681,39 +681,20 @@ app.post("/api/create/employee",(req,res)=>{
   //traitement
 })
 
-app.post("/api/create/account",async(req,res)=>{
-   
-  // await(
-  //  // 
-  //  //console.log("ddjdj")
-  // )
- 
-  // requestAxios.useAxiosRequestWithToken().get("/token/refresh").then(res=>{
-    // qbo.token = res.data.token.accessTokenKey
-    //res.status(201).send({message:"Enregistrement réussie",token:qbo.token})
-    //res.status(201).send({message:"Enregistrement réussie",data:req.body._value})
-    //req.headers['authorization'];
-    //res.status(201).send({message:"UI/UX"});
-    await(
-      requestAxios.getApiWithConfigAxios(config.oauthToken).post("/account",req.body._value).then(response=>{
-        res.status(201).send({message:"Enregistrement réussie"})
-      }).catch(er=>{
-        res.status(401).send({message:er})
+app.post("/api/create/account",async(req,resp)=>{
+     requestAxios.useAxiosRequestWithToken().get("/token/refresh").then(res=>{
+        const test  = req.body
+        qbo.token = res.data.token.accessTokenKey
+        qbo.createAccount(test,(err,dataAccount)=>{
+          if(err){
+            resp.status(201).send({message:err})
+          }
+          else{
+            resp.status(201).send({message:"Enregistrement réussie",data:dataAccount})
+          }
       })
-    )
-  //   qbo.token = req.body._value.token;
-  //   const name = req.body._value.Name;
-  //   const accountType = req.body._value.AccountType
-  //   qbo.createAccount({"AccountType":accountType,"Name":name},(err,dataAccount)=>{
-  //     if(err){
-  //       res.status(201).send({message:err})
-  //     }
-  //     else{
-  //       res.status(201).send({message:"Enregistrement réussie",data:dataAccount})
-  //     }
+    })
     
-  // // })
-  // })
 })
     // requestAxios.getApiWithConfigAxios(config.oauthToken).post("/account",req.body._value).then(response=>{
       
