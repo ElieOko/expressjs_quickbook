@@ -688,7 +688,7 @@ app.post("/api/create/account",cors(),async(req,resp)=>{
         // return resp.status(201).send({message:test})
         qbo.createAccount({
           "AccountType": "Accounts Receivable",
-          "Name": "FinTech"
+          "Name": "FinTestUp"
         },(err,dataAccount)=>{
           if(err){
             resp.status(201).send({message:err})
