@@ -683,10 +683,13 @@ app.post("/api/create/employee",(req,res)=>{
 
 app.post("/api/create/account",cors(),async(req,resp)=>{
     //  requestAxios.useAxiosRequestWithToken().get("/token/refresh").then(res=>{
-        const test  = JSON.stringify(req.body[0]);
+        const test  = req.body[0];
         qbo.token = req.body[1].token
-        return resp.status(201).send({message:test})
-        qbo.createAccount(test,(err,dataAccount)=>{
+        // return resp.status(201).send({message:test})
+        qbo.createAccount({
+          "AccountType": "Accounts Receivable",
+          "Name": "FinTech"
+        },(err,dataAccount)=>{
           if(err){
             resp.status(201).send({message:err})
           }
