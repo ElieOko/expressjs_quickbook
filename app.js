@@ -682,7 +682,7 @@ app.post("/api/create/employee",(req,res)=>{
 })
 
 app.get("/api/create/account",(req,res)=>{
-   response.status(201).send({message:"UI/UX"});
+   res.status(201).send({message:"UI/UX"});
   // await(
   //  // 
   //  //console.log("ddjdj")
