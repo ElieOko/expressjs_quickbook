@@ -684,14 +684,13 @@ app.post("/api/create/employee",(req,res)=>{
 
 app.post("/api/create/account",cors(),async(req,resp)=>{
     //  requestAxios.useAxiosRequestWithToken().get("/token/refresh").then(res=>{
-        qbo.token = req.body[1].token
-        const dt2 = req.body[0];
-        const name = req.body[0].Name;
-        const typeAccount = req.body[0].AccountType;
-        return resp.status(201).send({message_:typeAccount});
-        console.log("************BODY=>*******************",req.body[0]);
-        console.log("************TYPE=>*******************",req.body[0]);
-        console.log("**************VALUE=>",name);
+        let name = req.body[0].Name;
+        let typeAccount = req.body[0].AccountType;
+        qbo.token = req.body[1].token;
+        // return resp.status(201).send({message_:typeAccount});
+        // console.log("************BODY=>*******************",req.body[0]);
+        // console.log("************TYPE=>*******************",req.body[0]);
+        // console.log("**************VALUE=>",name);
         // resp.status(201).send({message_:req.body_value });
         // resp.status(201).send({message_:       const dt1 = JSON.stringify(req.body[0]);dt1,format_:dresp.status(201).send({message_:dt1,format_:dt2})t2})
         qbo.createAccount({
@@ -699,7 +698,7 @@ app.post("/api/create/account",cors(),async(req,resp)=>{
           "Name":name
         },(err,dataAccount)=>{
             if(err){
-              resp.status(201).send({message:err})
+              resp.status(201).send({message:err,test:typeAccount})
             }
             else{
               resp.status(201).send({message:"Enregistrement réussie",data:dataAccount})
