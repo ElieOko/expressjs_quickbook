@@ -687,7 +687,7 @@ app.post("/api/create/account",cors(),async(req,resp)=>{
         qbo.token = req.body[1].token
         const dt1 = JSON.stringify(req.body[0]);
         const dt2 = JSON.parse(dt1);
-        resp.status(201).send({message_:dt1,format_:dt2})
+        // resp.status(201).send({message_:dt1,format_:dt2})
         requestAxios.getApiWithConfigAxios(qbo.token).post("/account",dt2).then(response=>{
         resp.status(201).send({message:response.data})
         }).catch(err=>{
