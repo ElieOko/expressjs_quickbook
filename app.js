@@ -681,19 +681,20 @@ app.post("/api/create/employee",(req,res)=>{
   //traitement
 })
 
-app.post("/api/create/account",async(req,resp)=>{
-     requestAxios.useAxiosRequestWithToken().get("/token/refresh").then(res=>{
+app.post("/api/create/account",cors(),async(req,resp)=>{
+    //  requestAxios.useAxiosRequestWithToken().get("/token/refresh").then(res=>{
         const test  = req.body
-        qbo.token = res.data.token.accessTokenKey
+        qbo.token = "jdjddkdkdkdkd"
         qbo.createAccount(test,(err,dataAccount)=>{
           if(err){
             resp.status(201).send({message:err})
           }
           else{
             resp.status(201).send({message:"Enregistrement réussie",data:dataAccount})
+            //dataAccount.Id
           }
       })
-    })
+    // })
     
 })
     // requestAxios.getApiWithConfigAxios(config.oauthToken).post("/account",req.body._value).then(response=>{
