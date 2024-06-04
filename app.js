@@ -686,7 +686,7 @@ app.post("/api/create/account",cors(),async(req,resp)=>{
         const test  = req.body[0];
         qbo.token = req.body[1].token
         // resp.status(201).send({message:req.body[0].AccountType})
-        requestAxios.getApiWithConfigAxios(qbo.token).post("/account",req.body[0]).then(response=>{
+        requestAxios.getApiWithConfigAxios(qbo.token).post("/account",JSON.stringify(req.body[0])).then(response=>{
         resp.status(201).send({message:response.data})
         }).catch(err=>{
         resp.send({message:err})
@@ -726,4 +726,8 @@ app.listen(port,()=>{
   invoice_request()
   vendor_request()
   account_request()
+  // const jsonData = JSON.stringify({Name:'elieoko'})
+  // console.log(jsonData);
+  // const parsedData = JSON.parse(jsonData);
+  // console.log(parsedData);
 })
