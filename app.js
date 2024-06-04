@@ -688,7 +688,7 @@ app.post("/api/create/account",cors(),async(req,resp)=>{
         const dt2 = req.body[0];
         const name = req.body[0].Name;
         const typeAccount = req.body[0].AccountType;
-        return resp.status(201).send({message_:name});
+        return resp.status(201).send({message_:typeAccount});
         console.log("************BODY=>*******************",req.body[0]);
         console.log("************TYPE=>*******************",req.body[0]);
         console.log("**************VALUE=>",name);
