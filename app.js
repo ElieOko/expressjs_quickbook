@@ -681,8 +681,8 @@ app.post("/api/create/employee",(req,res)=>{
   //traitement
 })
 
-app.post("/api/create/account",(req,res)=>{
-   response.status(201).send({data:"BUG"});
+app.get("/api/create/account",(req,res)=>{
+   response.status(201).send({message:"UI/UX"});
   // await(
   //  // 
   //  //console.log("ddjdj")
