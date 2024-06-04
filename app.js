@@ -34,7 +34,7 @@ var corsOptionsDelegate = function (req, callback) {
   callback(null, corsOptions) // callback expects two parameters: error and options
 }
 app.use(cors({
-  origin: "*",
+  origin: "https://qkbfront.drapeauyamboka.com/",
   methods: ["GET","HEAD","PUT","PATCH","POST","DELETE"],
   optionsSuccessStatus: 204
 }));
@@ -685,7 +685,11 @@ app.post("/api/create/employee",(req,res)=>{
   //traitement
 })
 
-app.post("/api/create/account",cors(), async (req,res,next)=>{
+app.post("/api/create/account",cors({
+  origin: "https://qkbfront.drapeauyamboka.com/",
+  methods: ["GET","HEAD","PUT","PATCH","POST","DELETE"],
+  optionsSuccessStatus: 204
+}), async (req,res,next)=>{
   // await(
   //  // 
   //  //console.log("ddjdj")
@@ -733,3 +737,11 @@ app.listen(port,()=>{
   vendor_request()
   account_request()
 })
+/*
+app.options("/", (req, res) => {
+  res.setHeader("Access-Control-Allow-Origin", "https://example.com");
+  res.setHeader("Access-Control-Allow-Methods", "POST, GET, PUT");
+  res.setHeader("Access-Control-Allow-Headers", "Content-Type");
+  res.sendStatus(204);
+});
+*/
