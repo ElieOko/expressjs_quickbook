@@ -683,15 +683,10 @@ app.post("/api/create/employee",(req,res)=>{
 
 app.post("/api/create/account",cors(),async(req,resp)=>{
     //  requestAxios.useAxiosRequestWithToken().get("/token/refresh").then(res=>{
-        const test  = req.body[0];
         qbo.token = req.body[1].token
-        const dt1 = JSON.stringify(req.body[0]);
-        const dt2 = JSON.parse(dt1);
-        // resp.status(201).send({message_:dt1,format_:dresp.status(201).send({message_:dt1,format_:dt2})t2})
-        qbo.createAccount({
-          "AccountType":dt2.AccountType,
-          "Name": dt2.Name
-          },(err,dataAccount)=>{
+        const dt2 = req.body[0];
+        // resp.status(201).send({message_:       const dt1 = JSON.stringify(req.body[0]);dt1,format_:dresp.status(201).send({message_:dt1,format_:dt2})t2})
+        qbo.createAccount(dt2,(err,dataAccount)=>{
             if(err){
               resp.status(201).send({message:err})
             }
@@ -729,14 +724,5 @@ app.listen(port,()=>{
   // invoice_request()
   // vendor_request()
   // account_request()
-  // const jsonData = JSON.stringify({Name:'elieoko'})
-  // console.log(jsonData);
-  // const parsedData = JSON.parse(jsonData);
-  // console.log(parsedData);
-  // console.log(typeof(jsonData.toString()))
-  // console.log(jsonData.length)
-  // console.log(jsonData.toString())
-  const name = 'elieoko'
-  JSON.stringify(name)
-  console.log()
+
 })
