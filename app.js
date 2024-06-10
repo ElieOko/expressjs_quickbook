@@ -685,10 +685,10 @@ app.post("/api/create/employee",(req,res)=>{
 
 app.post("/api/create/account",cors(),async(req,resp)=>{
   //  requestAxios.useAxiosRequestWithToken().get("/token/refresh").then(res=>{
-      let name = req.body[0].Name;
-      let typeAccount = req.body[0].AccountType;
+      // let name = req.body[0].Name;
+      // let typeAccount = req.body[0].AccountType;
      // qbo.token = req.body[1].token;
-      const expose_data = JSON.stringify(req.body[0]);
+      // const expose_data = JSON.stringify(req.body[0]);
       // return resp.status(201).send({message_:typeAccount});
       // console.log("************BODY=>*******************",req.body[0]);
       // console.log("************TYPE=>*******************",req.body[0]);
@@ -705,9 +705,9 @@ app.post("/api/create/account",cors(),async(req,resp)=>{
         //   }).catch((er)=>{
         //     resp.status(400).send({message:""})
         //   })
-        const full = JSON.parse(expose_data);
+        const full = req.body;
         qbo.token = res.data.token.accessTokenKey
-          qbo.createAccount({"AccountType":full.AccountType,"Name":full.Name},(err,dataAccount)=>{
+          qbo.createAccount(req.body,(err,dataAccount)=>{
               if(err){
                 
                 resp.status(201).send({message:err,test:typeof(typeAccount)})
