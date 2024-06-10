@@ -698,10 +698,13 @@ app.post("/api/create/account",cors(),async(req,resp)=>{
           "AccountType":`"${typeAccount}"`,
           "Name":`"${name}"`
         */
-         await( requestAxios.getApiWithConfigAxios(req.body[1].token).post("/account",JSON.parse(expose_data)).then(response=>{
-            resp.status(201).send({message:"Enregistrement réussie"})
-          }).catch(er=>{
-            resp.status(401).send({message:er})
+          await(requestAxios.useAxiosRequestWithToken().get("/token/refresh").then(res=>{
+             requestAxios.getApiWithConfigAxios(res.data.token.accessTokenKey).post("/account",JSON.parse(expose_data)).then(response=>{
+              resp.status(201).send({message:"Enregistrement réussie"})
+            }).catch(er=>{
+              resp.status(400).send({message:er})
+            })
+          
           })
         )
         // qbo.createAccount(JSON.parse(expose_data),(err,dataAccount)=>{
