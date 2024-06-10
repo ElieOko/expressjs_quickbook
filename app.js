@@ -698,7 +698,7 @@ app.post("/api/create/account",cors(),async(req,resp)=>{
           "AccountType":`"${typeAccount}"`,
           "Name":`"${name}"`
         */
-        qbo.createAccount(JSON.parse(expose_data),(err,dataAccount)=>{
+        qbo.createAccount(expose_data,(err,dataAccount)=>{
             if(err){
               resp.status(201).send({message:err,test:typeof(typeAccount)})
             }
