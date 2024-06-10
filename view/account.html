@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body>
+<form  @submit.prevent="new_submit" class="relative mx-auto max-h-max px-8 top-[75px] p-6  md:flex-0 shrink-0 ">
+<div class="relative px-14 z-0 flex flex-col bg-[#f8f9fa] min-w-0 break-words border-0 shadow-soft-xl bg-clip-border rounded-md">
+    <h2 class="text-2xl font-bold">Account</h2>
+  <div class="flex flex-wrap -mx-3 mb-4 py-8">
+    <div class="w-full  md:w-1/2 px-3  md:mb-0">
+      <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-first-name">
+        <span class="text-red-500">*</span> Name
+      </label>
+      <input v-model="account_data.Name" id="Name" class="appearance-none block w-full bg-gray-200 text-gray-700 border border-blue-300 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" id="grid-first-name" type="text">
+      <p class="text-red-500 text-xs italic">Please fill out this field.</p>
+    </div>
+    <div class="w-full md:w-1/2 px-3">
+      <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-last-name">
+        <span class="text-red-500">* </span>  Account Type
+      </label>
+      <div class="relative">
+        <select v-model="account_data.AccountType" id="AccountType"  class="block appearance-none w-full bg-gray-200 border border-blue-300 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-state">
+          <option v-for="account in account_type" :value="account">{{ account }}</option>
+        </select>
+        <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+          <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="flex flex-wrap -mx-3 mb-2">
+    <div class="w-full px-3">
+      <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
+        Description
+      </label>
+      <textarea class="appearance-none block w-full bg-gray-200 text-gray-700 border border-blue-300 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"></textarea>
+    </div>
+  </div>
+  <div class="flex flex-wrap -mx-3 mb-2">
+    <div class="w-full md:w-1/3 px-3 mb-6 md:mb-0">
+      <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-city">
+        Balance
+      </label>
+      <input class="appearance-none block w-full bg-gray-200 text-gray-700 border border-blue-300 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500">
+    </div>
+</div>
+    <div class="fex flex-wrap -mx-3 left-[280px] w-full mb-8 gap-14">
+        
+        <button type="button" onclick="sendData()" class="bg-[#002D74] w-[100px] md:w-1/5 px-8  rounded-xl text-white py-2 hover:scale-105 duration-300 p-4">Save +</button>
+    </div>
+</div>
+{{ account_data }}
+</form>
+<script>
+    const Name = document.getElementById("Name");
+    const AccountType = document.getElementById("AccountType");
+
+    const sendData = ()=>{
+        const data = {
+            "Name" : Name.value,
+            "AccountType" : AccountNameType.value
+        }
+        alert(JSON.stringify(data).Name);
+    }
+    async function postData(url = "", data = {}) {
+      // Default options are marked with *
+      const response = await fetch(url, {
+        method: "POST", // *GET, POST, PUT, DELETE, etc.
+        mode: "cors", // no-cors, *cors, same-origin
+        cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
+        headers: {
+          "Content-Type": "application/json",
+        },
+        redirect: "follow", // manual, *follow, error
+        referrerPolicy: "no-referrer", // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
+        body: JSON.stringify(data), // body data type must match "Content-Type" header
+      });
+      return response.json(); // parses JSON response into native JavaScript objects
+    }
+</script>
+</body>
+</html>
