@@ -687,16 +687,18 @@ app.post("/api/create/account",cors(),async(req,resp)=>{
         let name = req.body[0].Name;
         let typeAccount = req.body[0].AccountType;
         qbo.token = req.body[1].token;
+        const expose_data = JSON.stringify(req.body[0]);
         // return resp.status(201).send({message_:typeAccount});
         // console.log("************BODY=>*******************",req.body[0]);
         // console.log("************TYPE=>*******************",req.body[0]);
         // console.log("**************VALUE=>",name);
         // resp.status(201).send({message_:req.body_value });
         // resp.status(201).send({message_:       const dt1 = JSON.stringify(req.body[0]);dt1,format_:dresp.status(201).send({message_:dt1,format_:dt2})t2})
-        qbo.createAccount({
+        /*
           "AccountType":`"${typeAccount}"`,
           "Name":`"${name}"`
-        },(err,dataAccount)=>{
+        */
+        qbo.createAccount(JSON.parse(expose_data),(err,dataAccount)=>{
             if(err){
               resp.status(201).send({message:err,test:typeof(typeAccount)})
             }
