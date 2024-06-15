@@ -573,25 +573,25 @@ app.post("/api/create/account",cors(),async(req,resp)=>{
         await(requestAxios.useAxiosRequestWithToken().get("/token/refresh").then(res=>{
         const full = req.body;
         qbo.token = res.data.token.accessTokenKey
-          requestAxios.useAxiosRequestWithToken().post("/create/temp/account",req.body).then(r=>{
-            requestAxios.getApiWithConfigAxios(res.data.token.accessTokenKey).post("/account",r.data.data).then(response=>{
-              resp.status(201).send({message:"Enregistrement réussie"})
-            }).catch(er=>{
-              resp.status(400).send({message:er})
-            })
-          //   qbo.createAccount(r.data.data,(err,dataAccount)=>{
-          //     if(err){
-          //       resp.status(201).send({message:err,test:typeof(typeAccount)})
-          //     }
-          //     else{
-          //       resp.status(201).send({message:"Enregistrement réussie",data:dataAccount})
-          //       requestAxios.useAxiosRequestWithToken().get("/temp/destroy").then(rs=>{
-          //         console.log(rs.data)
-          //       })
-          //       //dataAccount.Id
-          //     }
-          // })
+         // requestAxios.useAxiosRequestWithToken().post("/create/temp/account",req.body).then(r=>{
+            // requestAxios.getApiWithConfigAxios(res.data.token.accessTokenKey).post("/account",r.data.data).then(response=>{
+            //   resp.status(201).send({message:"Enregistrement réussie"})
+            // }).catch(er=>{
+            //   resp.status(400).send({message:er})
+            // })
+            qbo.createAccount(req.body,(err,dataAccount)=>{
+              if(err){
+                resp.status(201).send({message:err,test:typeof(typeAccount)})
+              }
+              else{
+                resp.status(201).send({message:"Enregistrement réussie",data:dataAccount})
+                // requestAxios.useAxiosRequestWithToken().get("/temp/destroy").then(rs=>{
+                //   console.log(rs.data)
+                // })
+                //dataAccount.Id
+              }
           })
+          // })
         // let usersPath = path.join(process.cwd(), 'store.txt');
         // //fs.writerTemp(usersPath,JSON.stringify(full));
         // fs.readerTemp(usersPath).then(data=>{
