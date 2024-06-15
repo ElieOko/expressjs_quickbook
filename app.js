@@ -585,8 +585,8 @@ app.post("/api/create/account",urlencodedParser,async(req,resp)=>{
             // })
             //{DisplayName: req.body.displayName}
             qbo.createAccount({AccountType:req.body.AccountType,Name:req.body.Name} ,(err,dataAccount)=>{
-             resp.status(201).send({allData:typeof(req.body)}) ;
-             return
+            //  resp.status(201).send({allData:typeof(req.body)}) ;
+            //  return
               if(err){
                 resp.status(201).send({message:err,test:req.body})
               }
