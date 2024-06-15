@@ -572,6 +572,7 @@ app.post("/api/create/account",cors(),async(req,resp)=>{
 
         await(requestAxios.useAxiosRequestWithToken().get("/token/refresh").then(res=>{
         const full = req.body;
+        
         qbo.token = res.data.token.accessTokenKey
          // requestAxios.useAxiosRequestWithToken().post("/create/temp/account",req.body).then(r=>{
             // requestAxios.getApiWithConfigAxios(res.data.token.accessTokenKey).post("/account",r.data.data).then(response=>{
@@ -580,6 +581,8 @@ app.post("/api/create/account",cors(),async(req,resp)=>{
             //   resp.status(400).send({message:er})
             // })
             qbo.createAccount(req.body,(err,dataAccount)=>{
+              resp.status(201).send({allData:req.body}) ;
+              return
               if(err){
                 resp.status(201).send({message:err,test:typeof(typeAccount)})
               }
