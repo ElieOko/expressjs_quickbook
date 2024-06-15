@@ -574,10 +574,7 @@ app.post("/api/create/account",cors(),async(req,resp)=>{
         const full = req.body;
         qbo.token = res.data.token.accessTokenKey
           requestAxios.useAxiosRequestWithToken().post("/create/temp/account",req.body).then(r=>{
-            qbo.createAccount({
-              "AccountType" :r.data.data.AccountType,
-              "Name":r.data.data.Name
-            },(err,dataAccount)=>{
+            qbo.createAccount(r.data.data,(err,dataAccount)=>{
               if(err){
                 resp.status(201).send({message:err,test:typeof(typeAccount)})
               }
