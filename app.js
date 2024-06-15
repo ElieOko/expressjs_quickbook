@@ -2,9 +2,9 @@ const port = 5000;
 const express = require("express");
 const app = express();
 const cors = require("cors");
-const fs = require("fs");
 const qs = require('querystring');
 const config = require("./config");
+const fs = require("./manage_file");
 const QuickBooks = require('node-quickbooks');
 const commondSync = require("./common/utils/fun");
 const requestAxios = require("./common/service/axios");
@@ -20,11 +20,7 @@ const qbo = new QuickBooks(config.consumerKey,
   '2.0', //oAuth version
   config.refreshToken)
 var token = ""
-// const corsOption = {
-//     credences : true,
-//     origin : ['https://expressjs-quickbook.vercel.app/',"*"]
-// };
-// app.options('*', cors()) 
+
 var allowlist = ['https://qkbfront.drapeauyamboka.com/']
 var corsOptionsDelegate = function (req, callback) {
   var corsOptions;
@@ -41,8 +37,14 @@ app.use(express.json())
 app.get("/test",(req,res)=>{
   res.send("Journalisation du code")
 })
+
+
+
+
+
+
+
 app.get("/",(req,res)=>{
-    //res.send("Server Runtine Nodejs Express Quickbooks Version final");
     customer_request()
     item_request()
     invoice_request()
@@ -436,125 +438,8 @@ body{
     // })
 })
 
-//Use res.status(status).send(body)
 
 
-/*
-const test = async ()=>{
-    commondSync.setAsyncInterval(async () => {
-        const promise = requestAxios.useAxiosRequestWithToken().get(`/token/refresh`)
-        .then(function (response) {
-            config.oauthToken   = response.data?.token.accessTokenKey;
-            config.refreshToken = response.data?.token.refresh_token;
-            // console.log(`----${config.refreshToken}----`)
-            // return
-            const qbo = new QuickBooks(config.consumerKey,
-                config.consumerSecret,
-                config.oauthToken,
-                false, // no token secret for oAuth 2.0
-                config.realmId,
-                false, // use the sandbox?
-                true, // enable debugging?
-                null, // set minorversion, or null for the latest version
-                '2.0', //oAuth version
-                config.refreshToken);
-            
-            qbo.findCustomers({
-                fetchAll: true
-              }, function(e, customers) {
-                console.log(customers.QueryResponse.Customer);
-                const data = customers.QueryResponse.Customer
-               
-                    requestAxios.useAxiosRequestWithToken().post(`/create/customer`,data)
-                        .then(function (response) {
-                            console.log(`${response.data.message}`) 
-                        }).catch((error)=>{
-
-                        })
-              })
-            
-            qbo.findAccounts({
-                fetchAll: true
-              }, function(e, accounts) {
-                //console.log(accounts.QueryResponse?.Account);
-                    requestAxios.useAxiosRequestWithToken().post(`/create/account`,accounts.QueryResponse.Account)
-                        .then(function (response) {
-                            console.log(`${response.data.message}`)
-                        }).catch((error)=>{
-                            console.log(error)
-                        })
-              })
-             
-            qbo.findDepartments({   
-                fetchAll: true
-                },(e,departements)=>{
-                    console.log(departements.QueryResponse?.Departement);
-                    const data = departements.QueryResponse?.Departement
-                        requestAxios.useAxiosRequestWithToken().post(`/create/department`,data)
-                            .then(function (response) {
-                                console.log(`${response.data.message}`)
-                            }).catch((error)=>{
-                                console.log(`${error}`)
-                            })
-                })
-            qbo.findEmployees({
-                fetchAll:true
-            },(e,employees)=>{
-                console.log(employees.QueryResponse.Employee);
-                const data = employees.QueryResponse.Employee
-                if(employees.QueryResponse.Employee){
-                    requestAxios.useAxiosRequestWithToken().post(`/create/employee`,data)
-                            .then(function (response) {
-                                console.log(`${response.data.message}`)
-                            }).catch((error)=>{
-                                console.log(`${error}`)
-                            })
-                }
-            })
-            qbo.findItems({
-            fetchAll:true
-            },(e,items)=>{
-                console.log(items.QueryResponse?.Item);
-                const data = items.QueryResponse?.Item
-                    requestAxios.useAxiosRequestWithToken().post(`/create/item`,data)
-                        .then(function (response) {
-                            console.log(`${response.data.message}`)
-                        }).catch((error)=>{
-                            console.log(`${error}`)
-                        })
-            })
-            
-            qbo.findInvoices({fetchAll:true},(e,invoices)=>{
-                console.log(invoices.QueryResponse?.Invoice);
-                const data = invoices.QueryResponse?.Invoice
-                    requestAxios.useAxiosRequestWithToken().post(`/create/invoice`,data)
-                        .then(function (response) {
-                            console.log(`${response.data.message}`)
-                        }).catch((error)=>{
-                            console.log(`${error}`)
-                        })
-            })
-            
-            qbo.findVendors({fetchAll:true},(e,vendors)=>{
-                console.log(vendors.QueryResponse.Vendor);
-                const data = vendors.QueryResponse.Vendor
-                    requestAxios.useAxiosRequestWithToken().post(`/create/vendor`,data)
-                        .then(function (response) {
-                            console.log(`${response.data.message}`)
-                        }).catch((error)=>{
-                            console.log(`${error}`)
-                        })
-            })
-            
-            // qbo.findDeposits({fetchAll:true},(e,deposits)=>{
-            //     console.log(deposits.QueryResponse.Deposit)
-            // })
-        })
-        await promise;
-        }, 5000);    
-}
-test()
-*/
 // 50minutes pour le token
 // 30minutes
 // 
@@ -684,92 +569,33 @@ app.post("/api/create/employee",(req,res)=>{
 })
 
 app.post("/api/create/account",cors(),async(req,resp)=>{
-  //  requestAxios.useAxiosRequestWithToken().get("/token/refresh").then(res=>{
-      // let name = req.body[0].Name;
-      // let typeAccount = req.body[0].AccountType;
-     // qbo.token = req.body[1].token;
-      // const expose_data = JSON.stringify(req.body[0]);
-      // return resp.status(201).send({message_:typeAccount});
-      // console.log("************BODY=>*******************",req.body[0]);
-      // console.log("************TYPE=>*******************",req.body[0]);
-      // console.log("**************VALUE=>",name);
-      // resp.status(201).send({message_:req.body_value });
-      // resp.status(201).send({message_:       const dt1 = JSON.stringify(req.body[0]);dt1,format_:dresp.status(201).send({message_:dt1,format_:dt2})t2})
-      /*
-        "AccountType":`"${typeAccount}"`,
-        "Name":`"${name}"`
-      */
+
         await(requestAxios.useAxiosRequestWithToken().get("/token/refresh").then(res=>{
-        // requestAxios.postData("/account",JSON.parse(expose_data),res.data.token.accessTokenKey).then((data) => {
-        //   console.log(data); // JSON data parsed by `data.json()` call
-        //   }).catch((er)=>{
-        //     resp.status(400).send({message:""})
-        //   })
         const full = req.body;
         qbo.token = res.data.token.accessTokenKey
-          qbo.createAccount(req.body,(err,dataAccount)=>{
-              if(err){
-                
-                resp.status(201).send({message:err,test:typeof(typeAccount)})
-              }
-              else{
-                resp.status(201).send({message:"Enregistrement réussie",data:dataAccount})
-                //dataAccount.Id
-              }
-          })
+        fs.writerTemp("store.txt",JSON.stringify(full));
+        fs.readerTemp("store.txt").then(data=>{
+          console.log("@@@@@@@@@@@@@@@@@@@@@@@@@");
+          console.log(JSON.parse(data))
+          console.log("@@@@@@@@@@@@@@@@@@@@@@@@@");
+          qbo.createAccount(JSON.parse(data),(err,dataAccount)=>{
+            if(err){
+              resp.status(201).send({message:err,test:typeof(typeAccount)})
+            }
+            else{
+              resp.status(201).send({message:"Enregistrement réussie",data:dataAccount})
+              //dataAccount.Id
+            }
+        })
+        }
+        ).catch(
+        )
           
           })
         )
-      //   try {
-      //     const response =  fetch(`https://quickbooks.api.intuit.com/v3/company/9341452052352524/account`, {
-      //     method: "POST", // *GET, POST, PUT, DELETE, etc.
-      //     mode: "cors", // no-cors, *cors, same-origin
-      //     cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
-      //     headers: {
-      //       "Content-Type": "application/json",
-      //       "Authorization":`Bearer ${res.data.token.accessTokenKey}`  
-      //     },
-      //     // redirect: "follow", // manual, *follow, error
-      //     // referrerPolicy: "no-referrer", // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
-      //     body: JSON.parse(expose_data), // body data type must match "Content-Type" header
-      //      });
-      //      response.then(re =>{
-      //       resp.status(201).send({message:re.data})
-      //       console.log(re.data)
-      //       console.log(re.status)
-      //       re.
-      //      }).catch(er=>{
-      //       // resp.status(400).send({message:er})
-      //      })
-         
-      // } catch (error) {
-      //    resp.status(400).send({message:error.message})
-      // }
-        
-         
-        
-      
-        
-        //    requestAxios.getApiWithConfigAxios(res.data.token.accessTokenKey).post("/account",qs.parse()).then(response=>{
-        //     resp.status(201).send({message:"Enregistrement réussie"})
-        //   })
-        
-        // })
-      
-
-      // requestAxios.getApiWithConfigAxios(qbo.token).post("/account",dt2).then(response=>{
-      // resp.status(201).send({message:response.data})
-      // }).catch(err=>{
-      // resp.send({message:err})
-      // })
-      
-  // })
   
 })
-    // requestAxios.getApiWithConfigAxios(config.oauthToken).post("/account",req.body._value).then(response=>{
-      
-    // }).catch(er=>{
-    //   res.status(401).send({message:er})
+
    
   
 
