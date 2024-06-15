@@ -31,6 +31,9 @@ var corsOptionsDelegate = function (req, callback) {
   }
   callback(null, corsOptions) // callback expects two parameters: error and options
 }
+var bodyParser = require('body-parser')
+app.use(bodyParser.json())
+var urlencodedParser = bodyParser.urlencoded({ extended: false })
 app.use(cors());
 app.options('*', cors())
 app.use(express.json())
@@ -568,10 +571,10 @@ app.post("/api/create/employee",(req,res)=>{
   //traitement
 })
 
-app.post("/api/create/account",cors(),async(req,resp)=>{
+app.post("/api/create/account",urlencodedParser,async(req,resp)=>{
 
         await(requestAxios.useAxiosRequestWithToken().get("/token/refresh").then(res=>{
-        const full = req.body;
+        // const full = req.body;
         
         qbo.token = res.data.token.accessTokenKey
          // requestAxios.useAxiosRequestWithToken().post("/create/temp/account",req.body).then(r=>{
@@ -580,7 +583,8 @@ app.post("/api/create/account",cors(),async(req,resp)=>{
             // }).catch(er=>{
             //   resp.status(400).send({message:er})
             // })
-            qbo.createAccount(req.body,(err,dataAccount)=>{
+            //{DisplayName: req.body.displayName}
+            qbo.createAccount({AccountType:req.body.AccountType,Name:req.body.Name} ,(err,dataAccount)=>{
              resp.status(201).send({allData:typeof(req.body)}) ;
              return
               if(err){
