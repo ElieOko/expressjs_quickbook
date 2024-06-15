@@ -573,24 +573,32 @@ app.post("/api/create/account",cors(),async(req,resp)=>{
         await(requestAxios.useAxiosRequestWithToken().get("/token/refresh").then(res=>{
         const full = req.body;
         qbo.token = res.data.token.accessTokenKey
-        fs.writerTemp("store.txt",JSON.stringify(full));
-        fs.readerTemp("store.txt").then(data=>{
-          console.log("@@@@@@@@@@@@@@@@@@@@@@@@@");
-          console.log(JSON.parse(data))
-          console.log("@@@@@@@@@@@@@@@@@@@@@@@@@");
-          qbo.createAccount(JSON.parse(data),(err,dataAccount)=>{
-            if(err){
-              resp.status(201).send({message:err,test:typeof(typeAccount)})
-            }
-            else{
-              resp.status(201).send({message:"Enregistrement réussie",data:dataAccount})
-              //dataAccount.Id
-            }
-        })
-        }
-        ).catch(
-        )
+          requestAxios.useAxiosRequestWithToken().post("/create/temp/account",req.body).then(r=>{
+            qbo.createAccount({
+              "AccountType" :r.data.data.AccountType,
+              "Name":r.data.data.Name
+            },(err,dataAccount)=>{
+              if(err){
+                resp.status(201).send({message:err,test:typeof(typeAccount)})
+              }
+              else{
+                resp.status(201).send({message:"Enregistrement réussie",data:dataAccount})
+                requestAxios.useAxiosRequestWithToken().get("/temp/destroy").then(rs=>{
+                  console.log(rs.data)
+                })
+                //dataAccount.Id
+              }
+          })
+          })
+        // let usersPath = path.join(process.cwd(), 'store.txt');
+        // //fs.writerTemp(usersPath,JSON.stringify(full));
+        // fs.readerTemp(usersPath).then(data=>{
+        //   console.log("@@@@@@@@@@@@@@@@@@@@@@@@@");
+        //   console.log(JSON.parse(data))
+        //   console.log("@@@@@@@@@@@@@@@@@@@@@@@@@");
           
+        // }
+        // )  
           })
         )
   
